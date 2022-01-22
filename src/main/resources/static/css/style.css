@@ -1,0 +1,30 @@
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+textarea {
+  width: 70%;
+  height: 300px;
+}
+
+.participant-list button {
+  background-color: #4fc08d;
+}
+.participant-list a.button {
+  padding: 0.55em 2em;
+  border-radius: 2em;
+  display: inline-block;
+  color: #fff;
+  background-color: #4fc08d;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+  border: 1px solid #4fc08d;
+  margin: 5px;
+}
+.participant-list a:hover {
+    cursor: pointer;
+}
