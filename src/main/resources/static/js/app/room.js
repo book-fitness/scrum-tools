@@ -67,23 +67,28 @@ Vue.component('participant-list', {
     data() {
         return {
             eventBus: this.bus,
-            participantList: [{id: 1, title: "hello"}, {id: 2, title: "cat mat"}, {id: 3, title:"cat dog"}],
+            participantList: [],
             addMsg: "Add participant",
             deleteMsg: "Delete participant",
             startMsg: "Start",
             name: "Input Name",
-            count: 4,
+            lastParticipantId: 0,
         };
     },
     methods: {
         addParticipant() {
-            this.participantList.push({title: this.createName()});
+            this.participantList.push(this.createParticipant());
         },
-        createName() {
-            return this.name + " #" + (this.count++);
+        createParticipant() {
+            var participantId = this.lastParticipantId++;
+            return {
+                id: participantId,
+                title: "bot #" + participantId,
+            };
         },
         deleteRow(participant) {
             var index = this.participantList.indexOf(participant);
+            console.log("DeleteRow(), participant id " + participant.id);
             this.deleteRowByIndex(index);
         },
         deleteRowByIndex(index) {
@@ -98,7 +103,7 @@ Vue.component('participant-list', {
 		`<div class='participant-list'>
             <strong style="text:bold">Timer Participants:</strong>
             <a class="button" v-on:click="addParticipant">{{ addMsg }}</a>
-            <ul v-for="(participant, participantId) in participantList" :key="participantId" :row-data="participant">
+            <ul v-for="(participant, id) in participantList" :key="id" :row-data="participant">
                 <li>
                     <row v-on:delete-row-event="deleteRow" v-bind:participant="participant"></row>
                     <!--<input type="button" v-on:click="deleteRowByIndex(index)" value="Delete"/>-->
@@ -256,14 +261,35 @@ function initApp() {
             },
           },
         template:
-            `<div class='app'>
-                <input  v-if="commonRoom == false" type="button" value="go to chat" v-on:click="goToCommonRoom"/>
-                <div v-if="commonRoom == true">
-                    <!--<common-chat></common-chat>-->
-
+            `<div class='app container'>
+                <div class="header">
                 </div>
-                <participant-list v-bind:bus="bus"></participant-list>
-                <!--<timer></timer>-->
+                <div class="content">
+                    <!--input  v-if="commonRoom == false" type="button" value="go to chat" v-on:click="goToCommonRoom"/>-->
+                    <!--<div v-if="commonRoom == true">-->
+                        <!--<common-chat></common-chat>-->
+                    <!--</div>-->
+                    <!--<participant-list v-bind:bus="bus"></participant-list>-->
+                    <!--<timer></timer>-->
+                    <div class="timer-state">
+                        <div class="timer-limit">
+                            <div>Time limit</div>
+                            <div>00:00</div>
+                        </div>
+                        <div class="total-time">
+                            <div>Tolal time</div>
+                            <div>00:00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer">
+                    <div class="control-buttons">
+                        <input id="start-btn" type="button" value="Start"/>
+                        <input id="pause-btn" type="button" value="Pause"/>
+                        <input id="next-btn" type="button" value="Next"/>
+                        <input id="stop-btn" type="button" value="Stop"/>
+                    </div>
+                </div>
             </div>`,
     });
 }
