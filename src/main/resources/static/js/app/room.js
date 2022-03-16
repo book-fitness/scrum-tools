@@ -274,7 +274,7 @@ function initApp() {
                     <div class="timer-state">
                         <div class="timer-limit">
                             <div>Time limit</div>
-                            <div>00:00</div>
+                            <timer></timer>
                         </div>
                         <div class="total-time">
                             <div>Tolal time</div>
