@@ -1,4 +1,4 @@
-package com.dailytool.service;
+package net.scrumtools.service;
 
 import org.springframework.stereotype.Service;
 

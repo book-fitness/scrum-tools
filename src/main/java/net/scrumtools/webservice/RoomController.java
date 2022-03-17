@@ -1,15 +1,26 @@
-package com.dailytool.webservice;
+package net.scrumtools.webservice;
 
-import com.dailytool.service.RoomNumberGenerator;
+import net.scrumtools.service.RoomNumberGenerator;
+import net.scrumtools.entity.Room;
+import net.scrumtools.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class RoomController {
+
+    @Autowired
+    private RoomService roomService;
+
+    @Autowired
+    private HttpSession httpSession;
 
     @Autowired
     private RoomNumberGenerator roomNumberGenerator;
@@ -22,8 +33,8 @@ public class RoomController {
     }
 
     @PostMapping("/room")
-    public String createNewRoom(ModelAndView modelAndView) {
-        String roomId = roomNumberGenerator.generateRoomNumber();
-        return "redirect:/room/" + roomId;
+    public String createNewRoom(@RequestParam("userName") String userNname) {
+        Room room = roomService.createRoom(httpSession.getId(), userNname);
+        return "redirect:/room/" + room.getRoomId();
     }
 }

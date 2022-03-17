@@ -1,6 +1,6 @@
 package net.scrumtools.entity;
 
-import com.dailytool.service.RoomNumberGenerator;
+import net.scrumtools.service.RoomNumberGenerator;
 
 import java.util.Objects;
 
@@ -31,5 +31,10 @@ public class RoomId {
     @Override
     public int hashCode() {
         return Objects.hash(value);
+    }
+
+    @Override
+    public String toString() {
+        return value;
     }
 }

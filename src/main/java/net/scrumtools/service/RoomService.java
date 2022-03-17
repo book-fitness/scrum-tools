@@ -2,7 +2,9 @@ package net.scrumtools.service;
 
 import net.scrumtools.entity.Room;
 import net.scrumtools.entity.User;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RoomService {
     private RoomManager roomManager;
     private UserNameValidator userNameValidator;
@@ -17,7 +19,7 @@ public class RoomService {
     }
 
     public Room createRoom(String sessionId, String userName) {
-        userNameValidator.validate(userName);
+        //userNameValidator.validate(userName);
         Room room = roomManager.createRoom();
         User user = new User(sessionId, userName);
         room.addUser(user);

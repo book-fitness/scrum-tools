@@ -2,10 +2,12 @@ package net.scrumtools.service;
 
 import net.scrumtools.entity.Room;
 import net.scrumtools.entity.RoomId;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class RoomManager {
     private Map<RoomId, Room> rooms = new HashMap<>();
 

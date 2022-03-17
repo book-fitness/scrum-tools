@@ -259,6 +259,10 @@ function initApp() {
               console.log("go to room")
               this.commonRoom = true;
             },
+            copyLink() {
+                var url = window.location.href;
+                console.log("url ", url);
+            },
           },
         template:
             `<div class='app container'>
@@ -288,6 +292,7 @@ function initApp() {
                         <input id="pause-btn" type="button" value="Pause"/>
                         <input id="next-btn" type="button" value="Next"/>
                         <input id="stop-btn" type="button" value="Stop"/>
+                        <input id="copy-url-btn" type="button" value="Copy room link" v-on:click="copyLink"/>
                     </div>
                 </div>
             </div>`,

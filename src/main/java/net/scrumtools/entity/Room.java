@@ -15,6 +15,10 @@ public class Room {
         this.roomId = roomId;
     }
 
+    public RoomId getRoomId() {
+        return this.roomId;
+    }
+
     private void updateDate() {
         lastUpdatedDate = new Date();
     }

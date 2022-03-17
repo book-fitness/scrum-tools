@@ -1,4 +1,4 @@
-package com.dailytool.webservice;
+package net.scrumtools.webservice;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
