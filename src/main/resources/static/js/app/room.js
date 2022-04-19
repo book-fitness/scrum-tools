@@ -272,6 +272,18 @@ function initApp() {
                 var url = window.location.href;
                 console.log("url ", url);
             },
+            startAction() {
+                console.log("start action");
+            },
+            stopAction() {
+                console.log("stop action");
+            },
+            pauseAction() {
+                console.log("pause action");
+            },
+            nextAction() {
+                console.log("next action");
+            },
         },
         template:
             `<div class='app container'>
@@ -316,10 +328,10 @@ function initApp() {
                 </div>
                 <div class="footer">
                     <div class="control-buttons">
-                        <input id="start-btn" type="button" value="Start"/>
-                        <input id="pause-btn" type="button" value="Pause"/>
-                        <input id="next-btn" type="button" value="Next"/>
-                        <input id="stop-btn" type="button" value="Stop"/>
+                        <input id="start-btn" type="button" value="Start" v-on:click="startAction"/>
+                        <input id="pause-btn" type="button" value="Pause" v-on:click="pauseAction"/>
+                        <input id="next-btn" type="button" value="Next" v-on:click="nextAction"/>
+                        <input id="stop-btn" type="button" value="Stop" v-on:click="stopAction"/>
                         <input id="copy-url-btn" type="button" value="Copy room link" v-on:click="copyLink"/>
                     </div>
                 </div>

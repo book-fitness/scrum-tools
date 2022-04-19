@@ -5,9 +5,10 @@ public class User {
     private String name;
     private RoomTimer userTime = new RoomTimer();
 
-    public User(String sessionId, String name) {
+    public User(String sessionId, String name, long timerLimit) {
         this.sessionId = sessionId;
         this.name = name;
+        userTime.setTimerLimit(timerLimit);
     }
 
     public String getSessionId() {

@@ -18,10 +18,10 @@ public class RoomService {
         return room;
     }
 
-    public Room createRoom(String sessionId, String userName) {
+    public Room createRoom(String sessionId, String userName, long timerLimit) {
         //userNameValidator.validate(userName);
         Room room = roomManager.createRoom();
-        User user = new User(sessionId, userName);
+        User user = new User(sessionId, userName, timerLimit);
         room.addUser(user);
         return room;
     }
@@ -29,7 +29,7 @@ public class RoomService {
     public Room joinToRoomById(String sessionId, String userName, String roomId) {
         userNameValidator.validate(userName);
         Room room = roomManager.getRoomById(roomId);
-        User user = new User(sessionId, userName);
+        User user = new User(sessionId, userName, room.getAllUsers().get(0).getUserTime().getTimerLimit());
         room.addUser(user);
         return room;
     }

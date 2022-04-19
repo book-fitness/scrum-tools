@@ -4,6 +4,7 @@ public class RoomTimer {
     private long totalTime = 0;
     private long startTime;
     private boolean running;
+    private long timerLimit;
 
     public void start() {
         startTime = System.currentTimeMillis();
@@ -26,5 +27,13 @@ public class RoomTimer {
 
     public long getStartTime() {
         return startTime;
+    }
+
+    public void setTimerLimit(long timerLimit) {
+        this.timerLimit = timerLimit;
+    }
+
+    public long getTimerLimit() {
+        return timerLimit;
     }
 }
