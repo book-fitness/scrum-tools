@@ -23,4 +23,8 @@ public class RoomTimer {
     public boolean isRunning() {
         return running;
     }
+
+    public long getStartTime() {
+        return startTime;
+    }
 }

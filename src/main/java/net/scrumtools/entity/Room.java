@@ -45,6 +45,10 @@ public class Room {
         updateDate();
     }
 
+    public List<User> getAllUsers() {
+        return users;
+    }
+
     public void startTimerOfUser(String userId) {
         getUserById(userId).startSpeaking();
         totalTimer.start();
@@ -55,5 +59,17 @@ public class Room {
         getUserById(userId).stopSpeaking();
         totalTimer.stop();
         updateDate();
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public Date getLastUpdatedDate() {
+        return lastUpdatedDate;
+    }
+
+    public RoomTimer getTotalTimer() {
+        return totalTimer;
     }
 }

@@ -251,19 +251,28 @@ function initApp() {
         data() {
             return {
               bus: new Vue(),
-              commonRoom: false
+              commonRoom: false,
+              roomState: null
             }
-          },
-          methods: {
+        },
+        mounted() {
+            console.log("roomId in mounted" + roomId);
+            fetch('http://localhost:8080/room-state/' + roomId)
+                .then(response => response.json())
+                .then(data => {
+                    this.roomState = data; console.log(data)
+                });
+        },
+        methods: {
             goToCommonRoom() {
-              console.log("go to room")
-              this.commonRoom = true;
+                console.log("go to room")
+                this.commonRoom = true;
             },
             copyLink() {
                 var url = window.location.href;
                 console.log("url ", url);
             },
-          },
+        },
         template:
             `<div class='app container'>
                 <div class="header">
@@ -275,6 +284,24 @@ function initApp() {
                     <!--</div>-->
                     <!--<participant-list v-bind:bus="bus"></participant-list>-->
                     <!--<timer></timer>-->
+                    <div v-if="roomState != null">
+                        Created date: {{roomState.createdDate}}</br>
+                        Last updated date: {{roomState.lastUpdatedDate}}</br>
+                        Total timer</br>
+                        Running: {{roomState.totalTimer.running}}</br>
+                        Start time: {{roomState.totalTimer.startTime}}</br>
+                        Total time: {{roomState.totalTimer.totalTime}}</br>
+                        Users</br>
+                        <ul v-for="(user, index) in roomState.users" :key="index">
+                            <li>
+                                {{user.name}}</br>
+                                Running: {{user.timer.running}}</br>
+                                Start time: {{user.timer.startTime}}</br>
+                                Total time: {{user.timer.totalTime}}</br>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--
                     <div class="timer-state">
                         <div class="timer-limit">
                             <div>Time limit</div>
@@ -285,6 +312,7 @@ function initApp() {
                             <div>00:00</div>
                         </div>
                     </div>
+                    -->
                 </div>
                 <div class="footer">
                     <div class="control-buttons">
