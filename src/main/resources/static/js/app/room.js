@@ -2,6 +2,17 @@ window.onload = function() {
 	initApp();
 };
 
+function milliToStr(timeMs) {
+    var seconds = Math.round(timeMs/1000) % 60;
+    var minutes = Math.round(timeMs/1000/60) % 60;
+    var hours = Math.round(timeMs/1000/60/60);
+
+    var timeToStr = (t) => t < 10 ? "0" + t : t;
+
+    return (hours <= 0 ? "" : timeToStr(hours) + ":") +
+                              timeToStr(minutes) + ":" +
+                              timeToStr(seconds);
+}
 /*Vue.component('button-counter', {
 	data: function() {
 		return {
@@ -252,7 +263,8 @@ function initApp() {
             return {
               bus: new Vue(),
               commonRoom: false,
-              roomState: null
+              roomState: null,
+              milliToStr: window.milliToStr,
             }
         },
         mounted() {
@@ -301,15 +313,15 @@ function initApp() {
                         Last updated date: {{roomState.lastUpdatedDate}}</br>
                         Total timer</br>
                         Running: {{roomState.totalTimer.running}}</br>
-                        Start time: {{roomState.totalTimer.startTime}}</br>
-                        Total time: {{roomState.totalTimer.totalTime}}</br>
+                        Start time: {{milliToStr(roomState.totalTimer.startTime)}}</br>
+                        Total time: {{milliToStr(roomState.totalTimer.totalTime)}}</br>
                         Users</br>
                         <ul v-for="(user, index) in roomState.users" :key="index">
                             <li>
                                 {{user.name}}</br>
                                 Running: {{user.timer.running}}</br>
-                                Start time: {{user.timer.startTime}}</br>
-                                Total time: {{user.timer.totalTime}}</br>
+                                Start time: {{milliToStr(user.timer.startTime)}}</br>
+                                Total time: {{milliToStr(user.timer.totalTime)}}</br>
                             </li>
                         </ul>
                     </div>

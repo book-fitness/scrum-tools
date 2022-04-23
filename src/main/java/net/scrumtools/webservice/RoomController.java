@@ -1,6 +1,5 @@
 package net.scrumtools.webservice;
 
-import net.scrumtools.entity.User;
 import net.scrumtools.service.RoomNumberGenerator;
 import net.scrumtools.entity.Room;
 import net.scrumtools.service.RoomService;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 public class RoomController {
@@ -43,7 +41,7 @@ public class RoomController {
     }
 
     private static long parseTimerLimit(String timerLimitStr) {
-        if (timerLimitStr.matches("^[0-9]{1,2}:[0-9]{2}$"))
+        if (!timerLimitStr.matches("^[0-9]{1,2}:[0-9]{2}$"))
             throw new IllegalArgumentException("Timer limit must be like: NN:NN. Actual is " + timerLimitStr);
 
         int colonIndex = timerLimitStr.indexOf(":");

@@ -6,11 +6,13 @@ public class RoomTimerDto {
     private long totalTime;
     private long startTime;
     private boolean running;
+    private long timerLimit;
 
     public RoomTimerDto(RoomTimer roomTimer) {
         this.totalTime = roomTimer.getTotalTime();
         this.startTime = roomTimer.getStartTime();
         this.running = roomTimer.isRunning();
+        this.timerLimit = roomTimer.getTimerLimit();
     }
 
     public long getTotalTime() {
@@ -35,5 +37,13 @@ public class RoomTimerDto {
 
     public void setRunning(boolean running) {
         this.running = running;
+    }
+
+    public long getTimerLimit() {
+        return timerLimit;
+    }
+
+    public void setTimerLimit(long timerLimit) {
+        this.timerLimit = timerLimit;
     }
 }
