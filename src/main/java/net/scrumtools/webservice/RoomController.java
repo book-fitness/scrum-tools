@@ -1,5 +1,6 @@
 package net.scrumtools.webservice;
 
+import net.scrumtools.entity.User;
 import net.scrumtools.service.RoomNumberGenerator;
 import net.scrumtools.entity.Room;
 import net.scrumtools.service.RoomService;
@@ -26,7 +27,13 @@ public class RoomController {
     private RoomNumberGenerator roomNumberGenerator;
 
     @GetMapping("/room/{roomId}")
-    public ModelAndView showRoom(@PathVariable("roomId") String roomId, ModelAndView modelAndView) {;
+    public ModelAndView showRoom(@PathVariable("roomId") String roomId, ModelAndView modelAndView) {
+        Room room = roomService.getRoomById(roomId);
+
+        if (!room.isExistUser(httpSession.getId())) {
+            room.addUser(new User(httpSession.getId(),"Anonymous", 1000L));
+        }
+
         modelAndView.addObject("roomId", roomId);
         modelAndView.setViewName("room.html");
         return modelAndView;

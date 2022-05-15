@@ -8,15 +8,15 @@ import java.util.stream.Collectors;
 
 public class RoomDto {
     private String roomId;
-    private Date createdDate;
-    private Date lastUpdatedDate;
+    private long createdDate;
+    private long lastUpdatedDate;
     private List<UserDto> users;
     private RoomTimerDto totalTimer;
 
     public RoomDto(Room room) {
         this.roomId = room.getRoomId().toString();
-        this.createdDate = room.getCreatedDate();
-        this.lastUpdatedDate = room.getLastUpdatedDate();
+        this.createdDate = room.getCreatedDate().getTime();
+        this.lastUpdatedDate = room.getLastUpdatedDate().getTime();
         this.users = room.getAllUsers().stream()
                 .map(UserDto::new)
                 .collect(Collectors.toList());
@@ -31,19 +31,19 @@ public class RoomDto {
         this.roomId = roomId;
     }
 
-    public Date getCreatedDate() {
+    public long getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(long createdDate) {
         this.createdDate = createdDate;
     }
 
-    public Date getLastUpdatedDate() {
+    public long getLastUpdatedDate() {
         return lastUpdatedDate;
     }
 
-    public void setLastUpdatedDate(Date lastUpdatedDate) {
+    public void setLastUpdatedDate(long lastUpdatedDate) {
         this.lastUpdatedDate = lastUpdatedDate;
     }
 

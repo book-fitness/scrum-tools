@@ -1,8 +1,6 @@
 package net.scrumtools.entity;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class Room {
     private RoomId roomId;
@@ -71,5 +69,34 @@ public class Room {
 
     public RoomTimer getTotalTimer() {
         return totalTimer;
+    }
+
+    public void nextUserAfter(String userId) {
+        stopTimerOfUser(userId);
+        User nextUser = findUserAfter(userId);
+        if (nextUser == null) return;
+        startTimerOfUser(nextUser.getSessionId());
+    }
+
+    private User findUserAfter(String userId) {
+        boolean flag = false;
+        User result = null;
+        for (User user : users) {
+            if (flag) {
+                result = user;
+                break;
+            }
+            if (user.getSessionId().equals(userId)) {
+                flag = true;
+            }
+        }
+        return result;
+    }
+
+    public boolean isExistUser(String userId) {
+        for (User user : getAllUsers()) {
+            if (Objects.equals(user.getSessionId(), userId)) return true;
+        }
+        return false;
     }
 }

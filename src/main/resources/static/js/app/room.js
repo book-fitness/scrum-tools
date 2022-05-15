@@ -2,10 +2,13 @@ window.onload = function() {
 	initApp();
 };
 
+var totalTimerInterval = null;
+var roomStateServerPollingInterval = null;
+
 function milliToStr(timeMs) {
-    var seconds = Math.round(timeMs/1000) % 60;
-    var minutes = Math.round(timeMs/1000/60) % 60;
-    var hours = Math.round(timeMs/1000/60/60);
+    var seconds = Math.floor(timeMs/1000) % 60;
+    var minutes = Math.floor(timeMs/1000/60) % 60;
+    var hours = Math.floor(timeMs/1000/60/60);
 
     var timeToStr = (t) => t < 10 ? "0" + t : t;
 
@@ -13,6 +16,11 @@ function milliToStr(timeMs) {
                               timeToStr(minutes) + ":" +
                               timeToStr(seconds);
 }
+function updateInterval() {
+    setInterval(1000);
+    roomState.totalTime + 1000;
+}
+
 /*Vue.component('button-counter', {
 	data: function() {
 		return {
@@ -272,7 +280,10 @@ function initApp() {
             fetch('http://localhost:8080/room-state/' + roomId)
                 .then(response => response.json())
                 .then(data => {
-                    this.roomState = data; console.log(data)
+                    console.log("initRoomState ", data);
+                    this.updateRoomState(data);
+                    this.checkAnonymousUser();
+                    this.startRoomStateServerPolling();
                 });
         },
         methods: {
@@ -285,16 +296,97 @@ function initApp() {
                 console.log("url ", url);
             },
             startAction() {
-                console.log("start action");
+                console.log("startAction");
+                fetch('/room/' + roomId + '/start-action', {
+                    method: 'POST',
+                }).then(response => response.json())
+                .then(data => {
+                    console.log("start ", data);
+                    this.updateRoomState(data);
+                });
             },
             stopAction() {
                 console.log("stop action");
+                fetch('/room/' + roomId + '/stop-action', {
+                    method: 'POST',
+                }).then(response => response.json())
+                .then(data => {
+                    console.log("stop ", data);
+                    this.updateRoomState(data);
+                });
             },
             pauseAction() {
                 console.log("pause action");
+                fetch('/room/' + roomId + '/pause-action', {
+                    method: 'POST',
+                }).then(response => response.json())
+                .then(data => {
+                    console.log("pause ", data);
+                    this.updateRoomState(data);
+                });
             },
             nextAction() {
                 console.log("next action");
+                fetch('/room/' + roomId + '/next-action', {
+                    method: 'POST',
+                }).then(response => response.json())
+                .then(data => {
+                    console.log("next ", data);
+                    this.updateRoomState(data);
+                });
+            },
+            updateRoomState(data) {
+                this.roomState = data;
+                var _this = this;
+                console.log("updateRoomState()");
+                if (data.totalTimer.running && totalTimerInterval == null) {
+                    totalTimerInterval = setInterval(function() {
+                        _this.updateTimer();
+                        console.log("seconds are running");
+                    }, 1000);
+                    console.log("timer is started");
+                } else if (!data.totalTimer.running && totalTimerInterval != null) {
+                    clearInterval(totalTimerInterval);
+                    totalTimerInterval = null;
+                    console.log("timer is stopped");
+                }
+            },
+            updateTimer() {
+                if (this.roomState.totalTimer.running) {
+                    this.roomState.totalTimer.totalTime += 1000;
+                    for (var i = 0; i < this.roomState.users.length; i++) {
+                        if (this.roomState.users[i].timer.running) {
+                            console.log("user ", this.roomState.users[i]);
+                            this.roomState.users[i].timer.totalTime += 1000;
+                        }
+                    }
+                }
+            },
+            checkAnonymousUser() {
+                console.log("checkAnonymousUser() called")
+            },
+            startRoomStateServerPolling() {
+                var _this = this;
+                if (roomStateServerPollingInterval == null) {
+                    roomStateServerPollingInterval = setInterval(function() {
+                        _this.roomStateServerPoll();
+                    }, 1000);
+                }
+            },
+            roomStateServerPoll() {
+                var _this = this;
+                var formData = new FormData();
+                formData.append('lastUpdatedDate', this.roomState.lastUpdatedDate);
+                fetch('/room-state/' + roomId + '/poll', {
+                    method: 'POST',
+                    body: formData,
+                }).then(response => response.json())
+                .then(data => {
+                    console.log("roomStateServerPoll() ", data);
+                    if (JSON.stringify(data) != '{}') {
+                        _this.updateRoomState(data);
+                    }
+                });
             },
         },
         template:
