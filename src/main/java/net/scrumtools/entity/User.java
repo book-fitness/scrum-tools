@@ -2,11 +2,13 @@ package net.scrumtools.entity;
 
 public class User {
     private String sessionId;
+    private UserId userId;
     private String name;
     private RoomTimer userTime = new RoomTimer();
 
-    public User(String sessionId, String name, long timerLimit) {
+    public User(String sessionId, UserId userId,  String name, long timerLimit) {
         this.sessionId = sessionId;
+        this.userId = userId;
         this.name = name;
         userTime.setTimerLimit(timerLimit);
     }
@@ -21,6 +23,14 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public UserId getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UserId userId) {
+        this.userId = userId;
     }
 
     public void setName(String name) {

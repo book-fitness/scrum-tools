@@ -1,7 +1,8 @@
 package net.scrumtools.webservice;
 
 import net.scrumtools.entity.User;
-import net.scrumtools.service.RoomNumberGenerator;
+import net.scrumtools.entity.UserId;
+import net.scrumtools.service.IdGenerator;
 import net.scrumtools.entity.Room;
 import net.scrumtools.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +25,14 @@ public class RoomController {
     private HttpSession httpSession;
 
     @Autowired
-    private RoomNumberGenerator roomNumberGenerator;
+    private IdGenerator idGenerator;
 
     @GetMapping("/room/{roomId}")
     public ModelAndView showRoom(@PathVariable("roomId") String roomId, ModelAndView modelAndView) {
         Room room = roomService.getRoomById(roomId);
 
         if (!room.isExistUser(httpSession.getId())) {
-            room.addUser(new User(httpSession.getId(),"Anonymous", 1000L));
+            room.addUser(new User(httpSession.getId(), UserId.createRandom(), "Anonymous", 1000L));
         }
 
         modelAndView.addObject("roomId", roomId);

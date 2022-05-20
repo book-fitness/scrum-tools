@@ -3,12 +3,22 @@ package net.scrumtools.dto;
 import net.scrumtools.entity.User;
 
 public class UserDto {
+    private String userId;
     private String name;
     private RoomTimerDto timer;
 
     public UserDto(User user) {
+        this.userId = user.getUserId().toString();
         this.name = user.getName();
         this.timer = new RoomTimerDto(user.getUserTime());
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {

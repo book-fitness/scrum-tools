@@ -2,6 +2,7 @@ package net.scrumtools.service;
 
 import net.scrumtools.entity.Room;
 import net.scrumtools.entity.User;
+import net.scrumtools.entity.UserId;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +22,7 @@ public class RoomService {
     public Room createRoom(String sessionId, String userName, long timerLimit) {
         //userNameValidator.validate(userName);
         Room room = roomManager.createRoom();
-        User user = new User(sessionId, userName, timerLimit);
+        User user = new User(sessionId, UserId.createRandom(), userName, timerLimit);
         room.addUser(user);
         return room;
     }
@@ -29,7 +30,7 @@ public class RoomService {
     public Room joinToRoomById(String sessionId, String userName, String roomId) {
         userNameValidator.validate(userName);
         Room room = roomManager.getRoomById(roomId);
-        User user = new User(sessionId, userName, room.getAllUsers().get(0).getUserTime().getTimerLimit());
+        User user = new User(sessionId, UserId.createRandom(), userName, room.getAllUsers().get(0).getUserTime().getTimerLimit());
         room.addUser(user);
         return room;
     }
