@@ -5,6 +5,8 @@ import net.scrumtools.entity.User;
 import net.scrumtools.entity.UserId;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RoomService {
     private RoomManager roomManager;
@@ -51,5 +53,13 @@ public class RoomService {
         Room room = roomManager.getRoomById(roomId);
         room.stopTimerOfUser(sessionId);
         return room;
+    }
+
+    public void userSessionExpired(String sessionId) {
+        List<Room> rooms = roomManager.findRoomsBySessionId(sessionId);
+        for (Room room : rooms) {
+            room.removeUserById(sessionId);
+            if (room.isEmpty()) roomManager.removeRoom(room);
+        }
     }
 }

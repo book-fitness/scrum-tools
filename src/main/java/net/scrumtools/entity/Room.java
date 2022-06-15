@@ -33,7 +33,14 @@ public class Room {
 
     public User getUserById(String userId) {
         for (User user : users) {
-            if (user.getSessionId().equals(userId)) return user;
+            if (user.getUserId().toString().equals(userId)) return user;
+        }
+        return null;
+    }
+
+    public User getUserBySessionId(String sessionId) {
+        for (User user : users) {
+            if (user.getSessionId().equals(sessionId)) return user;
         }
         return null;
     }
@@ -98,5 +105,16 @@ public class Room {
             if (Objects.equals(user.getSessionId(), userId)) return true;
         }
         return false;
+    }
+
+    public boolean hasUserWithSessionId(String sessionId) {
+        for (User user : users) {
+            if (Objects.equals(user.getSessionId(), sessionId)) return true;
+        }
+        return false;
+    }
+
+    public boolean isEmpty() {
+        return users.isEmpty();
     }
 }

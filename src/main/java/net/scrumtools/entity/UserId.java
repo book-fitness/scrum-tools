@@ -14,7 +14,7 @@ public class UserId {
 
     public static UserId createRandom() {
         IdGenerator idGenerator = new IdGenerator();
-        return new UserId(idGenerator.generateRoomNumber());
+        return new UserId(idGenerator.generateId());
     }
 
     public static UserId fromStr(String str) {

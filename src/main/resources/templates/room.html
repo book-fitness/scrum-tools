@@ -6,16 +6,12 @@
         <link rel="stylesheet" href="/css/style.css"/>
         <script src="/js/libs/vue-2.6.14.js"></script>
         <script src="/js/app/room.js"></script>
-        <script>
-            var roomId = location.href.substring(location.href.lastIndexOf("/") + 1);
-            console.log("roomId first ", roomId);
-        </script>
         <script th:inline="javascript">
             /*<![CDATA[*/
-
-                var roomId2 = /*[[${roomId}]]*/ 'default';
-                console.log("roomId2 ", roomId2);
-
+                var roomId = /*[[${roomId}]]*/ 'default';
+                console.log("roomId ", roomId);
+                var userId = /*[[${userId}]]*/ 'default';
+                console.log("userId ", userId);
             /*]]>*/
         </script>
     </head>

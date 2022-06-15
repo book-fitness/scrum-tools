@@ -8,10 +8,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 @RestController
 public class RoomRestController {
+
+    @Autowired
+    private ServletContext context;
 
     @Autowired
     private HttpSession session;
@@ -20,7 +24,6 @@ public class RoomRestController {
     private RoomService service;
 
     public RoomRestController() {
-        System.out.println("RoomRestController created");
     }
 
     @GetMapping("/room-state/{roomId}")
@@ -44,11 +47,6 @@ public class RoomRestController {
     @PostMapping("/room-start-action")
     public RoomDto startAction1(@RequestParam("roomId") String roomId,
                                 @RequestParam("actionName") String actionName) {
-        System.out.println("received");
-        System.out.println("Action Name " + actionName);
-        System.out.println("roomId " + roomId);
-        System.out.println("ID " + session.getId());
-        System.out.println("session " + session.hashCode() + " " + session.getClass().getName());
         Room room = service.getRoomById(roomId);
         room.startTimerOfUser(session.getId());
         return new RoomDto(room);

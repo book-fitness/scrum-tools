@@ -5,7 +5,9 @@ import net.scrumtools.entity.RoomId;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class RoomManager {
@@ -24,5 +26,16 @@ public class RoomManager {
 
     public Room getRoomById(String roomIdStr) {
         return getRoomById(RoomId.fromStr(roomIdStr));
+    }
+
+    public List<Room> findRoomsBySessionId(String sessionId) {
+        return this.rooms.values()
+                .stream()
+                .filter(r -> r.hasUserWithSessionId(sessionId))
+                .collect(Collectors.toList());
+    }
+
+    public void removeRoom(Room room) {
+        rooms.remove(room.getRoomId());
     }
 }

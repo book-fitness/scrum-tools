@@ -16,7 +16,6 @@ public class MainController {
 
     @GetMapping
     public String mainPage() {
-        System.out.println("sessionId " + httpSession.getId() + " started");
         return "index";
     }
 }

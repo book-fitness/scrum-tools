@@ -401,18 +401,18 @@ function initApp() {
                     <!--<participant-list v-bind:bus="bus"></participant-list>-->
                     <!--<timer></timer>-->
                     <div v-if="roomState != null">
-                        Created date: {{roomState.createdDate}}</br>
-                        Last updated date: {{roomState.lastUpdatedDate}}</br>
-                        Total timer</br>
-                        Running: {{roomState.totalTimer.running}}</br>
-                        Start time: {{milliToStr(roomState.totalTimer.startTime)}}</br>
+                        <!--Created date: {{roomState.createdDate}}</br>-->
+                        <!--Last updated date: {{roomState.lastUpdatedDate}}</br>-->
+                        <!--Total timer</br>-->
+                        <!--Running: {{roomState.totalTimer.running}}</br>-->
+                        <!--Start time: {{milliToStr(roomState.totalTimer.startTime)}}</br>-->
                         Total time: {{milliToStr(roomState.totalTimer.totalTime)}}</br>
                         Users</br>
                         <ul v-for="(user, index) in roomState.users" :key="index">
                             <li>
                                 {{user.name}}</br>
-                                Running: {{user.timer.running}}</br>
-                                Start time: {{milliToStr(user.timer.startTime)}}</br>
+                                <!--Running: {{user.timer.running}}</br>-->
+                                <!--Start time: {{milliToStr(user.timer.startTime)}}</br>-->
                                 Total time: {{milliToStr(user.timer.totalTime)}}</br>
                             </li>
                         </ul>

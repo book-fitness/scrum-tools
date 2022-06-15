@@ -13,7 +13,7 @@ public class RoomId {
 
     public static RoomId createRandom() {
         IdGenerator idGenerator = new IdGenerator();
-        return new RoomId(idGenerator.generateRoomNumber());
+        return new RoomId(idGenerator.generateId());
     }
 
     public static RoomId fromStr(String str) {
