@@ -39,26 +39,26 @@ public class RoomService {
 
     public Room leaveRoomById(String roomId, String sessionId) {
         Room room = roomManager.getRoomById(roomId);
-        room.removeUserById(sessionId);
+        room.removeUserBySessionId(sessionId);
         return room;
     }
 
     public Room startUserTimer(String roomId, String sessionId) {
         Room room = roomManager.getRoomById(roomId);
-        room.startTimerOfUser(sessionId);
+        room.startTimerBySessionId(sessionId);
         return room;
     }
 
     public Room stopUserTimer(String roomId, String sessionId) {
         Room room = roomManager.getRoomById(roomId);
-        room.stopTimerOfUser(sessionId);
+        room.stopTimerBySessionId(sessionId);
         return room;
     }
 
     public void userSessionExpired(String sessionId) {
         List<Room> rooms = roomManager.findRoomsBySessionId(sessionId);
         for (Room room : rooms) {
-            room.removeUserById(sessionId);
+            room.removeUserBySessionId(sessionId);
             if (room.isEmpty()) roomManager.removeRoom(room);
         }
     }

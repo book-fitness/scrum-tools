@@ -5,7 +5,7 @@ import java.util.Random;
 public class IdGenerator {
     private static final String source = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final Random r = new Random(System.currentTimeMillis());
-    private static final int DEFAULT_ROOM_NUMBER_LENGTH = 32;
+    private static final int DEFAULT_ID_LENGTH = 32;
 
     public IdGenerator() {
     }
@@ -21,6 +21,6 @@ public class IdGenerator {
     }
 
     public String generateId() {
-        return generateId(DEFAULT_ROOM_NUMBER_LENGTH);
+        return generateId(DEFAULT_ID_LENGTH);
     }
 }

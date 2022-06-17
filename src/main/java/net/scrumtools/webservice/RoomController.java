@@ -27,7 +27,7 @@ public class RoomController {
     public ModelAndView showRoom(@PathVariable("roomId") String roomId, ModelAndView modelAndView) {
         Room room = roomService.getRoomById(roomId);
 
-        if (!room.isExistUser(httpSession.getId())) {
+        if (!room.isExistUserBySessionId(httpSession.getId())) {
             room.addUser(new User(httpSession.getId(), UserId.createRandom(), "Anonymous", 1000L));
         }
 

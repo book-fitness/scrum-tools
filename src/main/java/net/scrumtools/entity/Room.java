@@ -45,8 +45,8 @@ public class Room {
         return null;
     }
 
-    public void removeUserById(String userId) {
-        removeUser(getUserById(userId));
+    public void removeUserBySessionId(String sessionId) {
+        removeUser(getUserBySessionId(sessionId));
         updateDate();
     }
 
@@ -54,14 +54,14 @@ public class Room {
         return users;
     }
 
-    public void startTimerOfUser(String userId) {
-        getUserById(userId).startSpeaking();
+    public void startTimerBySessionId(String sessionId) {
+        getUserBySessionId(sessionId).startSpeaking();
         totalTimer.start();
         updateDate();
     }
 
-    public void stopTimerOfUser(String userId) {
-        getUserById(userId).stopSpeaking();
+    public void stopTimerBySessionId(String sessionId) {
+        getUserBySessionId(sessionId).stopSpeaking();
         totalTimer.stop();
         updateDate();
     }
@@ -78,14 +78,14 @@ public class Room {
         return totalTimer;
     }
 
-    public void nextUserAfter(String userId) {
-        stopTimerOfUser(userId);
-        User nextUser = findUserAfter(userId);
+    public void nextUserAfterBySessionId(String sessionId) {
+        stopTimerBySessionId(sessionId);
+        User nextUser = findUserAfterBySessionId(sessionId);
         if (nextUser == null) return;
-        startTimerOfUser(nextUser.getSessionId());
+        startTimerBySessionId(nextUser.getSessionId());
     }
 
-    private User findUserAfter(String userId) {
+    private User findUserAfterBySessionId(String sessionId) {
         boolean flag = false;
         User result = null;
         for (User user : users) {
@@ -93,16 +93,16 @@ public class Room {
                 result = user;
                 break;
             }
-            if (user.getSessionId().equals(userId)) {
+            if (user.getSessionId().equals(sessionId)) {
                 flag = true;
             }
         }
         return result;
     }
 
-    public boolean isExistUser(String userId) {
+    public boolean isExistUserBySessionId(String sessionId) {
         for (User user : getAllUsers()) {
-            if (Objects.equals(user.getSessionId(), userId)) return true;
+            if (Objects.equals(user.getSessionId(), sessionId)) return true;
         }
         return false;
     }

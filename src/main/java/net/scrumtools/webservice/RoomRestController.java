@@ -44,39 +44,39 @@ public class RoomRestController {
         }
     }
 
-    @PostMapping("/room-start-action")
+    /*@PostMapping("/room-start-action")
     public RoomDto startAction1(@RequestParam("roomId") String roomId,
                                 @RequestParam("actionName") String actionName) {
         Room room = service.getRoomById(roomId);
         room.startTimerOfUser(session.getId());
         return new RoomDto(room);
-    }
+    }*/
 
     @PostMapping("/room/{roomId}/start-action")
     public ResponseEntity<RoomDto> startAction(@PathVariable("roomId") String roomId) {
         Room room = service.getRoomById(roomId);
-        room.startTimerOfUser(session.getId());
+        room.startTimerBySessionId(session.getId());
         return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
     }
 
     @PostMapping("/room/{roomId}/stop-action")
-    public RoomDto stopAction(@PathVariable("roomId") String roomId) {
+    public ResponseEntity<RoomDto> stopAction(@PathVariable("roomId") String roomId) {
         Room room = service.getRoomById(roomId);
-        room.stopTimerOfUser(session.getId());
-        return new RoomDto(room);
+        room.stopTimerBySessionId(session.getId());
+        return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
     }
 
     @PostMapping("/room/{roomId}/pause-action")
-    public RoomDto pauseAction(@PathVariable("roomId") String roomId) {
+    public ResponseEntity<RoomDto> pauseAction(@PathVariable("roomId") String roomId) {
         Room room = service.getRoomById(roomId);
-        room.stopTimerOfUser(session.getId());
-        return new RoomDto(room);
+        room.stopTimerBySessionId(session.getId());
+        return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
     }
 
     @PostMapping("/room/{roomId}/next-action")
-    public RoomDto nextAction(@PathVariable("roomId") String roomId) {
+    public ResponseEntity<RoomDto> nextAction(@PathVariable("roomId") String roomId) {
         Room room = service.getRoomById(roomId);
-        room.nextUserAfter(session.getId());
-        return new RoomDto(room);
+        room.nextUserAfterBySessionId(session.getId());
+        return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
     }
 }
