@@ -55,13 +55,44 @@ public class Room {
     }
 
     public void startTimerBySessionId(String sessionId) {
-        getUserBySessionId(sessionId).startSpeaking();
+        User user = getUserBySessionId(sessionId);
+        if (user.isSpeaking()) return;
+
+        stopAll();
+        start(user);
+    }
+
+    public void stopTimerBySessionId(String sessionId) {
+        User user = getUserBySessionId(sessionId);
+        stop(user);
+    }
+
+    public void pauseTimerBySessionId(String sessionId) {
+        User user = getUserBySessionId(sessionId);
+        if (user.isSpeaking()) {
+            stop(user);
+        } else {
+            stopAll();
+            start(user);
+        }
+    }
+
+    private void start(User user) {
+        user.startSpeaking();
         totalTimer.start();
         updateDate();
     }
 
-    public void stopTimerBySessionId(String sessionId) {
-        getUserBySessionId(sessionId).stopSpeaking();
+    private void stop(User user) {
+        user.stopSpeaking();
+        totalTimer.stop();
+        updateDate();
+    }
+
+    private void stopAll() {
+        for (User user : users) {
+            if (user.isSpeaking()) user.stopSpeaking();
+        }
         totalTimer.stop();
         updateDate();
     }

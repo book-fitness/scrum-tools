@@ -69,7 +69,7 @@ public class RoomRestController {
     @PostMapping("/room/{roomId}/pause-action")
     public ResponseEntity<RoomDto> pauseAction(@PathVariable("roomId") String roomId) {
         Room room = service.getRoomById(roomId);
-        room.stopTimerBySessionId(session.getId());
+        room.pauseTimerBySessionId(session.getId());
         return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
     }
 

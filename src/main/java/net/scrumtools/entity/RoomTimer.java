@@ -7,11 +7,13 @@ public class RoomTimer {
     private long timerLimit;
 
     public void start() {
+        if (running) return;
         startTime = System.currentTimeMillis();
         running = true;
     }
 
     public void stop() {
+        if (!running) return;
         long stopTime = System.currentTimeMillis();
         totalTime += stopTime - startTime;
         running = false;
