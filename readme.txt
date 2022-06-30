@@ -8,3 +8,6 @@ $ git config user.email <YOUR EMAIL HERE>
 
 Run:
 mvn spring-boot:run
+
+Clean:
+mvn clean
