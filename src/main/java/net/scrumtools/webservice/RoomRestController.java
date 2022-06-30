@@ -44,14 +44,6 @@ public class RoomRestController {
         }
     }
 
-    /*@PostMapping("/room-start-action")
-    public RoomDto startAction1(@RequestParam("roomId") String roomId,
-                                @RequestParam("actionName") String actionName) {
-        Room room = service.getRoomById(roomId);
-        room.startTimerOfUser(session.getId());
-        return new RoomDto(room);
-    }*/
-
     @PostMapping("/room/{roomId}/start-action")
     public ResponseEntity<RoomDto> startAction(@PathVariable("roomId") String roomId) {
         Room room = service.getRoomById(roomId);
