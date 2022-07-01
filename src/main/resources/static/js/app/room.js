@@ -287,6 +287,10 @@ function initApp() {
                 });
         },
         methods: {
+            isMyUser(userId) {
+                console.log("isMyUser");
+                return window.userId == userId;
+            },
             goToCommonRoom() {
                 console.log("go to room")
                 this.commonRoom = true;
@@ -342,7 +346,7 @@ function initApp() {
                 if (data.totalTimer.running && totalTimerInterval == null) {
                     totalTimerInterval = setInterval(function() {
                         _this.updateTimer();
-                        console.log("seconds are running");
+                        <!-- console.log("seconds are running"); -->
                     }, 1000);
                     console.log("timer is started");
                 } else if (!data.totalTimer.running && totalTimerInterval != null) {
@@ -356,7 +360,7 @@ function initApp() {
                     this.roomState.totalTimer.totalTime += 1000;
                     for (var i = 0; i < this.roomState.users.length; i++) {
                         if (this.roomState.users[i].timer.running) {
-                            console.log("user ", this.roomState.users[i]);
+                            <!--console.log("user ", this.roomState.users[i]); -->
                             this.roomState.users[i].timer.totalTime += 1000;
                         }
                     }
@@ -382,7 +386,6 @@ function initApp() {
                     body: formData,
                 }).then(response => response.json())
                 .then(data => {
-                    console.log("roomStateServerPoll() ", data);
                     if (JSON.stringify(data) != '{}') {
                         _this.updateRoomState(data);
                     }
@@ -409,7 +412,7 @@ function initApp() {
                         Total time: {{milliToStr(roomState.totalTimer.totalTime)}}</br>
                         Users</br>
                         <ul v-for="(user, index) in roomState.users" :key="index">
-                            <li>
+                            <li v-bind:class="{ 'my-user-highlight': isMyUser(user.userId) }">
                                 {{user.name}}</br>
                                 <!--Running: {{user.timer.running}}</br>-->
                                 <!--Start time: {{milliToStr(user.timer.startTime)}}</br>-->

@@ -28,3 +28,7 @@ textarea {
 .participant-list a:hover {
     cursor: pointer;
 }
+
+.my-user-highlight {
+    color: red;
+}
