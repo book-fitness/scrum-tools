@@ -21,10 +21,11 @@ public class RoomService {
         return room;
     }
 
-    public Room createRoom(String sessionId, String userName, long timerLimit, boolean randomOrder) {
+    public Room createRoom(String sessionId, String userName, long timerLimit, boolean randomOrder, String roomName) {
         //userNameValidator.validate(userName);
         Room room = roomManager.createRoom();
         room.setRandomOrder(randomOrder);
+        room.setRoomName(roomName);
         User user = new User(sessionId, UserId.createRandom(), userName, timerLimit);
         room.addUser(user);
         return room;

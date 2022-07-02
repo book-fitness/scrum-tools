@@ -34,6 +34,7 @@ public class RoomController {
         String userId = room.getUserBySessionId(httpSession.getId()).getUserId().toString();
         modelAndView.addObject("roomId", roomId);
         modelAndView.addObject("userId", userId);
+        modelAndView.addObject("roomName", room.getRoomName());
         modelAndView.setViewName("room.html");
         return modelAndView;
     }
@@ -41,9 +42,10 @@ public class RoomController {
     @PostMapping("/room")
     public String createNewRoom(@RequestParam("userName") String userName,
                                 @RequestParam("timerLimit") String timerLimitStr,
-                                @RequestParam(value = "randomOrderCheckbox", required = false, defaultValue = "false") Boolean randomOrderCheckbox) {
+                                @RequestParam(value = "randomOrderCheckbox", required = false, defaultValue = "false") Boolean randomOrderCheckbox,
+                                @RequestParam("roomName") String roomName) {
 
-        Room room = roomService.createRoom(httpSession.getId(), userName, parseTimerLimit(timerLimitStr), randomOrderCheckbox);
+        Room room = roomService.createRoom(httpSession.getId(), userName, parseTimerLimit(timerLimitStr), randomOrderCheckbox, roomName);
 
         return "redirect:/room/" + room.getRoomId();
     }

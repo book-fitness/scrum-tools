@@ -12,6 +12,7 @@ public class RoomDto {
     private List<UserDto> users;
     private RoomTimerDto totalTimer;
     private boolean roomOrder;
+    private String roomName;
 
     public RoomDto(Room room) {
         this.roomId = room.getRoomId().toString();

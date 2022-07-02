@@ -9,6 +9,7 @@ public class Room {
     private List<User> users = new ArrayList<>();
     private RoomTimer totalTimer = new RoomTimer();
     private boolean randomOrder;
+    private String roomName;
 
     public Room(RoomId roomId) {
         this.roomId = roomId;
@@ -33,6 +34,14 @@ public class Room {
 
     public void setRandomOrder(boolean randomOrder) {
         this.randomOrder = randomOrder;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 
     public void addUser(User user) {
