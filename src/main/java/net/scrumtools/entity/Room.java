@@ -8,9 +8,15 @@ public class Room {
     private Date lastUpdatedDate = new Date();
     private List<User> users = new ArrayList<>();
     private RoomTimer totalTimer = new RoomTimer();
+    private boolean randomOrder;
 
     public Room(RoomId roomId) {
         this.roomId = roomId;
+    }
+
+    public Room(RoomId roomId, boolean randomOrder) {
+        this.roomId = roomId;
+        this.randomOrder = randomOrder;
     }
 
     public RoomId getRoomId() {
@@ -19,6 +25,14 @@ public class Room {
 
     private void updateDate() {
         lastUpdatedDate = new Date();
+    }
+
+    public boolean isRandomOrder() {
+        return randomOrder;
+    }
+
+    public void setRandomOrder(boolean randomOrder) {
+        this.randomOrder = randomOrder;
     }
 
     public void addUser(User user) {

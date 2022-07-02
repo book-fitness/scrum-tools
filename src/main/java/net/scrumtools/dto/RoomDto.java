@@ -11,6 +11,7 @@ public class RoomDto {
     private long lastUpdatedDate;
     private List<UserDto> users;
     private RoomTimerDto totalTimer;
+    private boolean roomOrder;
 
     public RoomDto(Room room) {
         this.roomId = room.getRoomId().toString();
@@ -20,6 +21,7 @@ public class RoomDto {
                 .map(UserDto::new)
                 .collect(Collectors.toList());
         this.totalTimer = new RoomTimerDto(room.getTotalTimer());
+        this.roomOrder = room.isRandomOrder();
     }
 
     public String getRoomId() {
@@ -60,5 +62,13 @@ public class RoomDto {
 
     public void setTotalTimer(RoomTimerDto totalTimer) {
         this.totalTimer = totalTimer;
+    }
+
+    public boolean isRoomOrder() {
+        return roomOrder;
+    }
+
+    public void setRoomOrder(boolean roomOrder) {
+        this.roomOrder = roomOrder;
     }
 }

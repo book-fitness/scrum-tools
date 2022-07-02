@@ -40,9 +40,11 @@ public class RoomController {
 
     @PostMapping("/room")
     public String createNewRoom(@RequestParam("userName") String userName,
-                                @RequestParam("timerLimit") String timerLimitStr) {
+                                @RequestParam("timerLimit") String timerLimitStr,
+                                @RequestParam(value = "randomOrderCheckbox", required = false, defaultValue = "false") Boolean randomOrderCheckbox) {
 
-        Room room = roomService.createRoom(httpSession.getId(), userName, parseTimerLimit(timerLimitStr));
+        Room room = roomService.createRoom(httpSession.getId(), userName, parseTimerLimit(timerLimitStr), randomOrderCheckbox);
+
         return "redirect:/room/" + room.getRoomId();
     }
 
