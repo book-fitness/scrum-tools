@@ -1,0 +1,20 @@
+Deploy on Heroku
+
+1. Login to Heroku.
+$ heroku login
+<enter password>
+
+2. Install Heroku plugin (only first time ).
+$ heroku plugins:install heroku-cli-deploy
+
+3. Deploy bookprototype.
+$ heroku war:deploy target\BookPrototype-1.0-SNAPSHOT.war --app bookprototype-test
+
+4. Go to URL in browser.
+https://bookprototype-test.herokuapp.com/
+
+5. Deploy scrum-tools.
+$ heroku jar:deploy target\DailyTool-1.0-SNAPSHOT.jar --app scrum-tools-test
+
+6. Go to URL in browser.
+https://scrum-tools-test.herokuapp.com/

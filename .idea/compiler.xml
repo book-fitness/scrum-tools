@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="scrum-tools" target="13" />
+      <module name="scrum-tools" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
