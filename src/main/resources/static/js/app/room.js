@@ -273,7 +273,6 @@ function initApp() {
               commonRoom: false,
               roomState: null,
               milliToStr: window.milliToStr,
-              roomName: window.roomName,
             }
         },
         mounted() {
@@ -398,7 +397,7 @@ function initApp() {
                 <div class="header">
                 </div>
                 <div class="content">
-                    <h3>{{roomName}}</h3>
+                    <h3>{{roomState.name}}</h3>
                     <!--input  v-if="commonRoom == false" type="button" value="go to chat" v-on:click="goToCommonRoom"/>-->
                     <!--<div v-if="commonRoom == true">-->
                         <!--<common-chat></common-chat>-->

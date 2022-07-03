@@ -34,7 +34,6 @@ public class RoomController {
         String userId = room.getUserBySessionId(httpSession.getId()).getUserId().toString();
         modelAndView.addObject("roomId", roomId);
         modelAndView.addObject("userId", userId);
-        modelAndView.addObject("roomName", room.getRoomName());
         modelAndView.setViewName("room.html");
         return modelAndView;
     }

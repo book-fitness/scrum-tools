@@ -12,7 +12,7 @@ public class RoomDto {
     private List<UserDto> users;
     private RoomTimerDto totalTimer;
     private boolean randomOrder;
-    private String roomName;
+    private String name;
 
     public RoomDto(Room room) {
         this.roomId = room.getRoomId().toString();
@@ -23,6 +23,7 @@ public class RoomDto {
                 .collect(Collectors.toList());
         this.totalTimer = new RoomTimerDto(room.getTotalTimer());
         this.randomOrder = room.isRandomOrder();
+        this.name = room.getName();
     }
 
     public String getRoomId() {
@@ -71,5 +72,13 @@ public class RoomDto {
 
     public void setRandomOrder(boolean randomOrder) {
         this.randomOrder = randomOrder;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -25,7 +25,7 @@ public class RoomService {
         //userNameValidator.validate(userName);
         Room room = roomManager.createRoom();
         room.setRandomOrder(randomOrder);
-        room.setRoomName(roomName);
+        room.setName(roomName);
         User user = new User(sessionId, UserId.createRandom(), userName, timerLimit);
         room.addUser(user);
         return room;
