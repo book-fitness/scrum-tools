@@ -413,7 +413,7 @@ function initApp() {
                         Total time: {{milliToStr(roomState.totalTimer.totalTime)}}</br>
                         Users</br>
                         <ul v-for="(user, index) in roomState.users" :key="index">
-                            <li v-bind:class="{ 'my-user-highlight': isMyUser(user.userId) }">
+                            <li v-bind:class="{ 'my-user-highlight': isMyUser(user.userId), 'speaking-user': user.timer.running }">
                                 {{user.name}}</br>
                                 <!--Running: {{user.timer.running}}</br>-->
                                 <!--Start time: {{milliToStr(user.timer.startTime)}}</br>-->
