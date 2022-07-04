@@ -277,7 +277,7 @@ function initApp() {
         },
         mounted() {
             console.log("roomId in mounted" + roomId);
-            fetch('http://localhost:8080/room-state/' + roomId)
+            fetch('/room-state/' + roomId)
                 .then(response => response.json())
                 .then(data => {
                     console.log("initRoomState ", data);
