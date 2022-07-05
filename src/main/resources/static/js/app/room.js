@@ -332,16 +332,6 @@ function initApp() {
                     this.updateRoomState(data);
                 });
             },
-            nextAction() {
-                console.log("next action");
-                fetch('/room/' + roomId + '/next-action', {
-                    method: 'POST',
-                }).then(response => response.json())
-                .then(data => {
-                    console.log("next ", data);
-                    this.updateRoomState(data);
-                });
-            },
             updateRoomState(data) {
                 this.roomState = data;
                 var _this = this;
@@ -441,7 +431,6 @@ function initApp() {
                     <div class="control-buttons">
                         <input id="start-btn" type="button" value="Start" v-on:click="startAction"/>
                         <input id="pause-btn" type="button" value="Pause" v-on:click="pauseAction"/>
-                        <input id="next-btn" type="button" value="Next" v-on:click="nextAction"/>
                         <input id="stop-btn" type="button" value="Stop" v-on:click="stopAction"/>
                         <input id="copy-url-btn" type="button" value="Copy room link" v-on:click="copyLink"/>
                     </div>

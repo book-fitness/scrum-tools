@@ -132,13 +132,6 @@ public class Room {
         return totalTimer;
     }
 
-    public void nextUserAfterBySessionId(String sessionId) {
-        stopTimerBySessionId(sessionId);
-        User nextUser = findUserAfterBySessionId(sessionId);
-        if (nextUser == null) return;
-        startTimerBySessionId(nextUser.getSessionId());
-    }
-
     private User findUserAfterBySessionId(String sessionId) {
         boolean flag = false;
         User result = null;

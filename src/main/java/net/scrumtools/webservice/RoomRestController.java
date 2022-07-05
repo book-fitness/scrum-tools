@@ -64,11 +64,4 @@ public class RoomRestController {
         room.pauseTimerBySessionId(session.getId());
         return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
     }
-
-    @PostMapping("/room/{roomId}/next-action")
-    public ResponseEntity<RoomDto> nextAction(@PathVariable("roomId") String roomId) {
-        Room room = service.getRoomById(roomId);
-        room.nextUserAfterBySessionId(session.getId());
-        return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
-    }
 }
