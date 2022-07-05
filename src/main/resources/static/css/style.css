@@ -30,8 +30,11 @@ textarea {
 }
 
 .my-user-highlight {
-    color: red;
+    color: navy;
 }
 .speaking-user{
     color: green;
+}
+.overtime {
+    color: red;
 }

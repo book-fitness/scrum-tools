@@ -291,6 +291,9 @@ function initApp() {
                 console.log("isMyUser");
                 return window.userId == userId;
             },
+            isOvertime(time) {
+                return time.totalTime >= time.timerLimit;
+            },
             goToCommonRoom() {
                 console.log("go to room")
                 this.commonRoom = true;
@@ -417,7 +420,7 @@ function initApp() {
                                 {{user.name}}</br>
                                 <!--Running: {{user.timer.running}}</br>-->
                                 <!--Start time: {{milliToStr(user.timer.startTime)}}</br>-->
-                                Total time: {{milliToStr(user.timer.totalTime)}}</br>
+                                Total time: <label v-bind:class="{ 'overtime': isOvertime(user.timer) }">{{milliToStr(user.timer.totalTime)}}</label></br>
                             </li>
                         </ul>
                     </div>
