@@ -300,7 +300,8 @@ function initApp() {
             },
             copyLink() {
                 var url = window.location.href;
-                console.log("url ", url);
+                navigator.clipboard.writeText(url);
+                console.log("url", url);
             },
             startAction() {
                 console.log("startAction");
