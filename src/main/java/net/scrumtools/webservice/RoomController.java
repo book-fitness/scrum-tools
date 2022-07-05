@@ -28,7 +28,7 @@ public class RoomController {
         Room room = roomService.getRoomById(roomId);
 
         if (!room.isExistUserBySessionId(httpSession.getId())) {
-            room.addUser(new User(httpSession.getId(), UserId.createRandom(), "Anonymous", 1000L));
+            room.addUser(new User(httpSession.getId(), UserId.createRandom(), "Anonymous", room.getTotalTimer().getTimerLimit()));
         }
 
         String userId = room.getUserBySessionId(httpSession.getId()).getUserId().toString();

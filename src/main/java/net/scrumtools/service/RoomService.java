@@ -26,6 +26,7 @@ public class RoomService {
         Room room = roomManager.createRoom();
         room.setRandomOrder(randomOrder);
         room.setName(roomName);
+        room.getTotalTimer().setTimerLimit(timerLimit);
         User user = new User(sessionId, UserId.createRandom(), userName, timerLimit);
         room.addUser(user);
         return room;
