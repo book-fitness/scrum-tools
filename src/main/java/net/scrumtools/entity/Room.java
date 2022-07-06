@@ -88,6 +88,34 @@ public class Room {
     public void stopTimerBySessionId(String sessionId) {
         User user = getUserBySessionId(sessionId);
         stop(user);
+        startSpeakingNextUser(user);
+    }
+
+    private void startSpeakingNextUser(User user) {
+        if (randomOrder) {
+            startSpeakingOfRandomUser();
+        } else if (isNotSpeakingUserExist()) {
+            int indexOfNextUser = users.indexOf(user) + 1;
+            if (indexOfNextUser <= users.size() - 1) startTimerBySessionId(users.get(indexOfNextUser).getSessionId());
+        }
+    }
+
+    private void startSpeakingOfRandomUser() {
+        Random random = new Random();
+        int randomIndex = random.nextInt(users.size());
+        if (isNotSpeakingUserExist()) {
+            while(true) {
+                User user = users.get(randomIndex);
+                if (user.getUserTime().getTotalTime() == 0) {
+                    startTimerBySessionId(user.getSessionId());
+                    break;
+                }
+            }
+        }
+    }
+
+    private boolean isNotSpeakingUserExist() {
+        return users.stream().anyMatch(u -> u.getUserTime().getTotalTime() == 0);
     }
 
     public void pauseTimerBySessionId(String sessionId) {
