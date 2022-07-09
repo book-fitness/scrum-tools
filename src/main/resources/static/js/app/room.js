@@ -295,7 +295,6 @@ function initApp() {
                 return time.totalTime >= time.timerLimit;
             },
             checkAnonymousUser() {
-                console.log("checkAnonymousUser", this.roomState)
                 for (var i = 0; i < this.roomState.users.length; i++) {
                     if (this.roomState.users[i].userId == window.userId) {
                         if (this.roomState.users[i].anonymous == true) {
@@ -313,7 +312,6 @@ function initApp() {
                     body: formData,
                 }).then(response => response.json())
                 .then(data => {
-                    console.log("nameChanging data ", data);
                     this.updateRoomState(data);
                 });
             },
