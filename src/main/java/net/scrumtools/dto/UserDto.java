@@ -6,11 +6,13 @@ public class UserDto {
     private String userId;
     private String name;
     private RoomTimerDto timer;
+    private boolean anonymous;
 
     public UserDto(User user) {
         this.userId = user.getUserId().toString();
         this.name = user.getName();
         this.timer = new RoomTimerDto(user.getUserTime());
+        this.anonymous = user.isAnonymous();
     }
 
     public String getUserId() {
@@ -35,5 +37,13 @@ public class UserDto {
 
     public void setTimer(RoomTimerDto timer) {
         this.timer = timer;
+    }
+
+    public boolean isAnonymous() {
+        return anonymous;
+    }
+
+    public void setAnonymous(boolean anonymous) {
+        this.anonymous = anonymous;
     }
 }

@@ -36,7 +36,7 @@ public class RoomRestController {
     public ResponseEntity<Object> pollRoomState(@PathVariable("roomId") String roomId,
                                                 @RequestParam("lastUpdatedDate") long lastUpdatedDate) {
         Room room = service.getRoomById(roomId);
-        if (room != null && room.getLastUpdatedDate().getTime() > lastUpdatedDate) {
+        if (room != null) {
             return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
         }
         else {
@@ -62,6 +62,13 @@ public class RoomRestController {
     public ResponseEntity<RoomDto> pauseAction(@PathVariable("roomId") String roomId) {
         Room room = service.getRoomById(roomId);
         room.pauseTimerBySessionId(session.getId());
+        return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
+    }
+
+    @PostMapping("/room/{roomId}/name-changing")
+    public ResponseEntity<RoomDto> changeUserName(@PathVariable("roomId") String roomId, @RequestParam(name = "userName") String userName) {
+        Room room = service.getRoomById(roomId);
+        room.changeUserName(session.getId(), userName);
         return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
     }
 }

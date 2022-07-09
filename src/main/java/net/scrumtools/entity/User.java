@@ -5,6 +5,7 @@ public class User {
     private UserId userId;
     private String name;
     private RoomTimer userTime = new RoomTimer();
+    private boolean anonymous = true;
 
     public User(String sessionId, UserId userId,  String name, long timerLimit) {
         this.sessionId = sessionId;
@@ -59,5 +60,13 @@ public class User {
 
     public long getSpeakTime() {
         return userTime.getTotalTime();
+    }
+
+    public boolean isAnonymous() {
+        return anonymous;
+    }
+
+    public void setAnonymous(boolean anonymous) {
+        this.anonymous = anonymous;
     }
 }

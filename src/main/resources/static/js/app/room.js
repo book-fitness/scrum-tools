@@ -294,6 +294,29 @@ function initApp() {
             isOvertime(time) {
                 return time.totalTime >= time.timerLimit;
             },
+            checkAnonymousUser() {
+                console.log("checkAnonymousUser", this.roomState)
+                for (var i = 0; i < this.roomState.users.length; i++) {
+                    if (this.roomState.users[i].userId == window.userId) {
+                        if (this.roomState.users[i].anonymous == true) {
+                            let userName = prompt("Please enter your name", "Bobrik");
+                            this.changeUserName(userName);
+                        }
+                    }
+                }
+            },
+            changeUserName(name) {
+                var formData = new FormData();
+                formData.append('userName', name);
+                fetch('/room/' + roomId + '/name-changing', {
+                    method: 'POST',
+                    body: formData,
+                }).then(response => response.json())
+                .then(data => {
+                    console.log("nameChanging data ", data);
+                    this.updateRoomState(data);
+                });
+            },
             goToCommonRoom() {
                 console.log("go to room")
                 this.commonRoom = true;
@@ -359,9 +382,6 @@ function initApp() {
                         }
                     }
                 }
-            },
-            checkAnonymousUser() {
-                console.log("checkAnonymousUser() called")
             },
             startRoomStateServerPolling() {
                 var _this = this;

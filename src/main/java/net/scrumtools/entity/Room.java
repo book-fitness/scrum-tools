@@ -61,6 +61,14 @@ public class Room {
         return null;
     }
 
+    public void changeUserName(String sessionId, String name) {
+        if (!isExistUserBySessionId(sessionId)) return;
+
+        User user = getUserBySessionId(sessionId);
+        user.setAnonymous(false);
+        user.setName(name);
+    }
+
     public User getUserBySessionId(String sessionId) {
         for (User user : users) {
             if (user.getSessionId().equals(sessionId)) return user;
