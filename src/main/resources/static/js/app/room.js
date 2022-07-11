@@ -295,14 +295,27 @@ function initApp() {
                 return time.totalTime >= time.timerLimit;
             },
             checkAnonymousUser() {
+                var currentUser = this.getCurrentUser();
+                if (currentUser.anonymous == true) {
+                    let userName = prompt("Please enter your name", "Anonymous");
+                    this.changeUserName(userName);
+                }
+            },
+            isCurrentUser() {
                 for (var i = 0; i < this.roomState.users.length; i++) {
                     if (this.roomState.users[i].userId == window.userId) {
-                        if (this.roomState.users[i].anonymous == true) {
-                            let userName = prompt("Please enter your name", "Bobrik");
-                            this.changeUserName(userName);
-                        }
+                        return true;
                     }
                 }
+                return false;
+            },
+            getCurrentUser() {
+                for (var i = 0; i < this.roomState.users.length; i++) {
+                    if (this.roomState.users[i].userId == window.userId) {
+                        return this.roomState.users[i];
+                    }
+                }
+                return null;
             },
             changeUserName(name) {
                 var formData = new FormData();

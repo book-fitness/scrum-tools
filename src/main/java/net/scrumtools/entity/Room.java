@@ -66,7 +66,12 @@ public class Room {
 
         User user = getUserBySessionId(sessionId);
         user.setAnonymous(false);
-        user.setName(name);
+        if (name != null && !name.equals("null")) {
+            user.setName(name);
+        } else {
+            user.setName("Anonymous");
+        }
+        updateDate();
     }
 
     public User getUserBySessionId(String sessionId) {

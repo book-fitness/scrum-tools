@@ -36,7 +36,7 @@ public class RoomRestController {
     public ResponseEntity<Object> pollRoomState(@PathVariable("roomId") String roomId,
                                                 @RequestParam("lastUpdatedDate") long lastUpdatedDate) {
         Room room = service.getRoomById(roomId);
-        if (room != null) {
+        if (room != null && room.getLastUpdatedDate().getTime() > lastUpdatedDate) {
             return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
         }
         else {
