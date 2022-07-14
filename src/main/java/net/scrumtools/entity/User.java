@@ -6,6 +6,8 @@ public class User {
     private String name;
     private RoomTimer userTime = new RoomTimer();
     private boolean anonymous = true;
+    private boolean pause = false;
+    private boolean active = false;
 
     public User(String sessionId, UserId userId,  String name, long timerLimit) {
         this.sessionId = sessionId;
@@ -68,5 +70,21 @@ public class User {
 
     public void setAnonymous(boolean anonymous) {
         this.anonymous = anonymous;
+    }
+
+    public boolean isPause() {
+        return pause;
+    }
+
+    public void setPause(boolean pause) {
+        this.pause = pause;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

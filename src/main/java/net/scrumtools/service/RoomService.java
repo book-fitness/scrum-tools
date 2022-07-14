@@ -29,6 +29,7 @@ public class RoomService {
         room.getTotalTimer().setTimerLimit(timerLimit);
         User user = new User(sessionId, UserId.createRandom(), userName, timerLimit);
         user.setAnonymous(false);
+        user.setActive(true);
         room.addUser(user);
         return room;
     }

@@ -7,12 +7,16 @@ public class UserDto {
     private String name;
     private RoomTimerDto timer;
     private boolean anonymous;
+    private boolean pause;
+    private boolean active;
 
     public UserDto(User user) {
         this.userId = user.getUserId().toString();
         this.name = user.getName();
         this.timer = new RoomTimerDto(user.getUserTime());
         this.anonymous = user.isAnonymous();
+        this.pause = user.isPause();
+        this.active = user.isActive();
     }
 
     public String getUserId() {
@@ -45,5 +49,13 @@ public class UserDto {
 
     public void setAnonymous(boolean anonymous) {
         this.anonymous = anonymous;
+    }
+
+    public boolean isPause() {
+        return pause;
+    }
+
+    public void setPause(boolean pause) {
+        this.pause = pause;
     }
 }
