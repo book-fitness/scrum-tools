@@ -99,9 +99,17 @@ public class Room {
     }
 
     public void stopTimerBySessionId(String sessionId) {
-        User user = getUserBySessionId(sessionId);
+        User user = findSpeakingUser();
         stop(user);
         startSpeakingNextUser(user);
+    }
+
+    private User findSpeakingUser() {
+        for (User user : users) {
+            if (user.isSpeaking()) return user;
+        }
+
+        return null;
     }
 
     private void startSpeakingNextUser(User user) {
