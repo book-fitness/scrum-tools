@@ -9,6 +9,7 @@ public class UserDto {
     private boolean anonymous;
     private boolean pause;
     private boolean active;
+    private boolean isHost;
 
     public UserDto(User user) {
         this.userId = user.getUserId().toString();
@@ -17,6 +18,7 @@ public class UserDto {
         this.anonymous = user.isAnonymous();
         this.pause = user.isPause();
         this.active = user.isActive();
+        this.isHost = user.isHost();
     }
 
     public String getUserId() {
@@ -57,5 +59,21 @@ public class UserDto {
 
     public void setPause(boolean pause) {
         this.pause = pause;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isHost() {
+        return isHost;
+    }
+
+    public void setHost(boolean host) {
+        isHost = host;
     }
 }

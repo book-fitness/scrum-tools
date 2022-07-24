@@ -296,7 +296,7 @@ function initApp() {
             },
             checkAnonymousUser() {
                 var currentUser = this.getCurrentUser();
-                if (currentUser.anonymous == true) {
+                if (currentUser.anonymous) {
                     let userName = prompt("Please enter your name", "Anonymous");
                     this.changeUserName(userName);
                 }
@@ -310,12 +310,18 @@ function initApp() {
                 return false;
             },
             getCurrentUser() {
+                if (this.roomState == null) return null;
                 for (var i = 0; i < this.roomState.users.length; i++) {
                     if (this.roomState.users[i].userId == window.userId) {
+                        console.log("isActive ", this.roomState.users[i].active)
                         return this.roomState.users[i];
                     }
                 }
                 return null;
+            },
+            isHostUser() {
+                if (this.getCurrentUser() == null) return false;
+                return this.getCurrentUser().host;
             },
             changeUserName(name) {
                 var formData = new FormData();
@@ -367,8 +373,37 @@ function initApp() {
                     this.updateRoomState(data);
                 });
             },
+            removeAction(userId) {
+                if (this.isHostUser() && this.getCurrentUser().userId == userId) return;
+                fetch('/room/' + roomId + "/" + userId + '/remove-action', {
+                    method: 'POST',
+                }).then(response => response.json())
+                .then(data => {
+                    console.log("remove ", data);
+                    this.updateRoomState(data);
+                });
+            },
+            isActive() {
+                if (this.getCurrentUser() == null) return false;
+                return this.getCurrentUser().active;
+            },
+            isUserDeleted() {
+                for (var i = 0; i < this.roomState.users.length; i++) {
+                    if (this.roomState.users[i].userId == userId) {
+                        return false;
+                    }
+                }
+                return true;
+            },
+            canShowRemoveButton(user) {
+                return this.isHostUser() && this.getCurrentUser().userId != user.userId;
+            },
             updateRoomState(data) {
                 this.roomState = data;
+                if (this.isUserDeleted()) {
+                    location.href = '/';
+                    return;
+                }
                 var _this = this;
                 console.log("updateRoomState()");
                 if (data.totalTimer.running && totalTimerInterval == null) {
@@ -422,7 +457,6 @@ function initApp() {
                 <div class="header">
                 </div>
                 <div class="content">
-                    <h3>{{roomState.name}}</h3>
                     <!--input  v-if="commonRoom == false" type="button" value="go to chat" v-on:click="goToCommonRoom"/>-->
                     <!--<div v-if="commonRoom == true">-->
                         <!--<common-chat></common-chat>-->
@@ -430,6 +464,7 @@ function initApp() {
                     <!--<participant-list v-bind:bus="bus"></participant-list>-->
                     <!--<timer></timer>-->
                     <div v-if="roomState != null">
+                        <h3>{{roomState.name}}</h3>
                         <!--Created date: {{roomState.createdDate}}</br>-->
                         <!--Last updated date: {{roomState.lastUpdatedDate}}</br>-->
                         <!--Total timer</br>-->
@@ -442,7 +477,8 @@ function initApp() {
                                 {{user.name}}</br>
                                 <!--Running: {{user.timer.running}}</br>-->
                                 <!--Start time: {{milliToStr(user.timer.startTime)}}</br>-->
-                                Total time: <label v-bind:class="{ 'overtime': isOvertime(user.timer) }">{{milliToStr(user.timer.totalTime)}}</label></br>
+                                Total time: <label v-bind:class="{ 'overtime': isOvertime(user.timer) }">{{milliToStr(user.timer.totalTime)}}</label>
+                                <input type="button" value="Remove" v-show="canShowRemoveButton(user)" v-on:click="removeAction(user.userId)"/>
                             </li>
                         </ul>
                     </div>
@@ -453,7 +489,7 @@ function initApp() {
                             <timer></timer>
                         </div>
                         <div class="total-time">
-                            <div>Tolal time</div>
+                            <div>Total time</div>
                             <div>00:00</div>
                         </div>
                     </div>
@@ -461,9 +497,9 @@ function initApp() {
                 </div>
                 <div class="footer">
                     <div class="control-buttons">
-                        <input id="start-btn" type="button" value="Start" v-on:click="startAction"/>
-                        <input id="pause-btn" type="button" value="Pause" v-on:click="pauseAction"/>
-                        <input id="stop-btn" type="button" value="Stop" v-on:click="stopAction"/>
+                        <input id="start-btn" type="button" value="Start" v-on:click="startAction" :disabled="!isActive()"/>
+                        <input id="pause-btn" type="button" value="Pause" v-on:click="pauseAction" :disabled="!isActive()"/>
+                        <input id="stop-btn" type="button" value="Stop" v-on:click="stopAction" :disabled="!isActive()"/>
                         <input id="copy-url-btn" type="button" value="Copy room link" v-on:click="copyLink"/>
                     </div>
                 </div>

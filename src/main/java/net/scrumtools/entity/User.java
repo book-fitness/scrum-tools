@@ -8,6 +8,7 @@ public class User {
     private boolean anonymous = true;
     private boolean pause = false;
     private boolean active = false;
+    private boolean isHost = false;
 
     public User(String sessionId, UserId userId,  String name, long timerLimit) {
         this.sessionId = sessionId;
@@ -86,5 +87,13 @@ public class User {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isHost() {
+        return isHost;
+    }
+
+    public void setHost(boolean host) {
+        isHost = host;
     }
 }

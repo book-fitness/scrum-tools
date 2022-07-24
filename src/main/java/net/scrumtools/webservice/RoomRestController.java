@@ -65,6 +65,13 @@ public class RoomRestController {
         return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
     }
 
+    @PostMapping("/room/{roomId}/{userId}/remove-action")
+    public ResponseEntity<RoomDto> removeAction(@PathVariable("roomId") String roomId, @PathVariable("userId") String userId) {
+        Room room = service.getRoomById(roomId);
+        room.removeUser(room.getUserById(userId));
+        return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
+    }
+
     @PostMapping("/room/{roomId}/name-changing")
     public ResponseEntity<RoomDto> changeUserName(@PathVariable("roomId") String roomId, @RequestParam(name = "userName") String userName) {
         Room room = service.getRoomById(roomId);

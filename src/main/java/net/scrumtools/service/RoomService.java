@@ -30,6 +30,7 @@ public class RoomService {
         User user = new User(sessionId, UserId.createRandom(), userName, timerLimit);
         user.setAnonymous(false);
         user.setActive(true);
+        user.setHost(true);
         room.addUser(user);
         return room;
     }

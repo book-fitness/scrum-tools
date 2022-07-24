@@ -10,11 +10,16 @@ textarea {
   width: 70%;
   height: 300px;
 }
-
-.participant-list button {
-  background-color: #4fc08d;
+.my-user-highlight {
+    color: navy;
 }
-.participant-list a.button, input[type=button] {
+.speaking-user{
+    color: green;
+}
+.overtime {
+    color: red;
+}
+input[type=button] {
   padding: 0.55em 2em;
   border-radius: 2em;
   display: inline-block;
@@ -25,16 +30,14 @@ textarea {
   border: 1px solid #4fc08d;
   margin: 5px;
 }
-.participant-list a:hover {
+input[type=button]:disabled {
+  background-color: lightgray;
+  border: 1px solid lightgray;
+}
+input[type=button]:hover {
     cursor: pointer;
 }
-
-.my-user-highlight {
-    color: navy;
-}
-.speaking-user{
-    color: green;
-}
-.overtime {
-    color: red;
+.control-buttons-disabled {
+    pointer-events:none;
+    background-color: gray;
 }
