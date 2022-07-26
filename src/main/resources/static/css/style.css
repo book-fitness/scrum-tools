@@ -1,3 +1,7 @@
+body {
+    margin: 0;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -40,4 +44,15 @@ input[type=button]:hover {
 .control-buttons-disabled {
     pointer-events:none;
     background-color: gray;
+}
+
+#create-room-form {
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 80px;
+}
+
+#create-room-form table {
+    width: 50%;
+    margin: 0 auto;
 }

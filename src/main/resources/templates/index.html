@@ -1,8 +1,61 @@
-<form action="room" method="POST">
-    <input type="submit" value="create new room">
-    <input type="text" name="userName">User name
-    <input type="text" value="01:00" name="timerLimit">Set timer limit</br>
-    <input type="text" value="New room" name="roomName">Set room name</br>
-    <input type="checkbox" name="randomOrderCheckbox" id="randomOrderCheckbox">
-    <label for="randomOrderCheckbox">Random order</label>
-</form>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Scrum-tools start page</title>
+        <link rel="stylesheet" href="/css/style.css"/>
+        <script src="/js/libs/vue-2.6.14.js"></script>
+        <script src="/js/app/room.js"></script>
+        <script th:inline="javascript">
+        </script>
+    </head>
+    <body>
+        <div id="create-room-form">
+            <form action="room" method="POST">
+                <table>
+                    <tr>
+                        <td colspan="2">
+                            <h3>Welcome to strum-tools start page!</h3>
+                            <p>Here you can specify parameters to create new room.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Room admin name</label>
+                        </td>
+                        <td>
+                            <input type="text" name="userName" value="Room admin"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Timer limit</label>
+                        </td>
+                        <td>
+                            <input type="text" value="01:00" name="timerLimit"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Room name</label>
+                        </td>
+                        <td>
+                            <input type="text" value="New room" name="roomName"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="checkbox" name="randomOrderCheckbox" id="randomOrderCheckbox"/>
+                            <label for="randomOrderCheckbox">Random order of users</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" value="Create room"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>
