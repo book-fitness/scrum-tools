@@ -3,7 +3,8 @@ window.onload = function() {
 };
 
 var totalTimerInterval = null;
-var roomStateServerPollingInterval = null;
+//var roomStateServerPollingInterval = null;
+var stompClient = null;
 
 function milliToStr(timeMs) {
     var seconds = Math.floor(timeMs/1000) % 60;
@@ -261,6 +262,14 @@ Vue.component('timer', {
         </div>`,
 });
 
+function initStompClient(endPoint, destination, responseHandler) {
+    var socket = new SockJS(endPoint);
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function(frame) {
+        stompClient.subscribe("/topic/room/" + roomId, responseHandler);
+    });
+}
+
 // Entry point on room page.
 function initApp() {
     console.log("start vue app");
@@ -282,13 +291,20 @@ function initApp() {
                 .then(data => {
                     console.log("initRoomState ", data);
                     this.updateRoomState(data);
-                    this.checkAnonymousUser();
-                    this.startRoomStateServerPolling();
+                    initStompClient("/scrum-tools-websocket",
+                                    "/topic/room/" + roomId,
+                                    this.stompResponseHandler.bind(this));
+                    //this.checkAnonymousUser();
+                    //this.startRoomStateServerPolling();
                 });
+                var _this = this;
+                setTimeout(function() {
+                        _this.checkAnonymousUser();
+                }, 500);
+
         },
         methods: {
             isMyUser(userId) {
-                console.log("isMyUser");
                 return window.userId == userId;
             },
             isOvertime(time) {
@@ -313,7 +329,6 @@ function initApp() {
                 if (this.roomState == null) return null;
                 for (var i = 0; i < this.roomState.users.length; i++) {
                     if (this.roomState.users[i].userId == window.userId) {
-                        console.log("isActive ", this.roomState.users[i].active)
                         return this.roomState.users[i];
                     }
                 }
@@ -324,7 +339,9 @@ function initApp() {
                 return this.getCurrentUser().host;
             },
             changeUserName(name) {
-                var formData = new FormData();
+                //console.log("change user name action");
+
+                /*var formData = new FormData();
                 formData.append('userName', name);
                 fetch('/room/' + roomId + '/name-changing', {
                     method: 'POST',
@@ -332,7 +349,14 @@ function initApp() {
                 }).then(response => response.json())
                 .then(data => {
                     this.updateRoomState(data);
-                });
+                });*/
+
+                var message = {messageType: "UserActionChangeName",
+                               roomId: roomId,
+                               userId: this.getCurrentUser().userId,
+                               newUserName: name,};
+                               console.log("StompClient change name: ", stompClient);
+                stompClient.send("/app/user-action/change-name", {}, JSON.stringify(message));
             },
             goToCommonRoom() {
                 console.log("go to room")
@@ -344,44 +368,70 @@ function initApp() {
                 console.log("url", url);
             },
             startAction() {
-                console.log("startAction");
-                fetch('/room/' + roomId + '/start-action', {
+                //console.log("start action");
+
+                /*fetch('/room/' + roomId + '/start-action', {
                     method: 'POST',
                 }).then(response => response.json())
                 .then(data => {
                     console.log("start ", data);
                     this.updateRoomState(data);
-                });
+                });*/
+
+                var message = {messageType: "UserAction",
+                               roomId: roomId,
+                               userId: this.getCurrentUser().userId,};
+                stompClient.send("/app/user-action/start", {}, JSON.stringify(message));
             },
             stopAction() {
-                console.log("stop action");
-                fetch('/room/' + roomId + '/stop-action', {
+                //console.log("stop action");
+
+                /*fetch('/room/' + roomId + '/stop-action', {
                     method: 'POST',
                 }).then(response => response.json())
                 .then(data => {
                     console.log("stop ", data);
                     this.updateRoomState(data);
-                });
+                });*/
+
+                var message = {messageType: "UserAction",
+                               roomId: roomId,
+                               userId: this.getCurrentUser().userId,};
+                stompClient.send("/app/user-action/stop", {}, JSON.stringify(message));
             },
             pauseAction() {
-                console.log("pause action");
-                fetch('/room/' + roomId + '/pause-action', {
+                //console.log("pause action");
+
+                /*fetch('/room/' + roomId + '/pause-action', {
                     method: 'POST',
                 }).then(response => response.json())
                 .then(data => {
                     console.log("pause ", data);
                     this.updateRoomState(data);
-                });
+                });*/
+
+                var message = {messageType: "UserAction",
+                               roomId: roomId,
+                               userId: this.getCurrentUser().userId,};
+                stompClient.send("/app/user-action/pause", {}, JSON.stringify(message));
             },
             removeAction(userId) {
+                //console.log("remove action");
+
                 if (this.isHostUser() && this.getCurrentUser().userId == userId) return;
-                fetch('/room/' + roomId + "/" + userId + '/remove-action', {
+                /*fetch('/room/' + roomId + "/" + userId + '/remove-action', {
                     method: 'POST',
                 }).then(response => response.json())
                 .then(data => {
                     console.log("remove ", data);
                     this.updateRoomState(data);
-                });
+                });*/
+
+                var message = {messageType: "UserActionRemove",
+                               roomId: roomId,
+                               userId: this.getCurrentUser().userId,
+                               removingUserId: userId,};
+                stompClient.send("/app/user-action/remove", {}, JSON.stringify(message));
             },
             isActive() {
                 if (this.getCurrentUser() == null) return false;
@@ -429,15 +479,15 @@ function initApp() {
                     }
                 }
             },
-            startRoomStateServerPolling() {
+            /*startRoomStateServerPolling() {
                 var _this = this;
                 if (roomStateServerPollingInterval == null) {
                     roomStateServerPollingInterval = setInterval(function() {
                         _this.roomStateServerPoll();
                     }, 1000);
                 }
-            },
-            roomStateServerPoll() {
+            },*/
+            /*roomStateServerPoll() {
                 var _this = this;
                 var formData = new FormData();
                 formData.append('lastUpdatedDate', this.roomState.lastUpdatedDate);
@@ -450,6 +500,12 @@ function initApp() {
                         _this.updateRoomState(data);
                     }
                 });
+            },*/
+            stompResponseHandler(json) {
+                //console.log("Stomp response: ", json);
+                var roomState = JSON.parse(json.body);
+                //console.log("Parsed Stomp response: ", roomState);
+                this.updateRoomState(roomState);
             },
         },
         template:

@@ -63,8 +63,14 @@ public class Room {
 
     public void changeUserName(String sessionId, String name) {
         if (!isExistUserBySessionId(sessionId)) return;
+        changeUserNameOf(getUserBySessionId(sessionId), name);
+    }
 
-        User user = getUserBySessionId(sessionId);
+    public void changeUserNameById(String userId, String name) {
+        changeUserNameOf(getUserById(userId), name);
+    }
+
+    public void changeUserNameOf(User user, String name) {
         user.setAnonymous(false);
         if (name != null && !name.equals("null")) {
             user.setName(name);
@@ -91,7 +97,14 @@ public class Room {
     }
 
     public void startTimerBySessionId(String sessionId) {
-        User user = getUserBySessionId(sessionId);
+        startTimerOf(getUserBySessionId(sessionId));
+    }
+
+    public void startTimerByUserId(String userId) {
+        startTimerOf(getUserById(userId));
+    }
+
+    public void startTimerOf(User user) {
         if (user.isSpeaking()) return;
 
         stopAll();
@@ -99,7 +112,14 @@ public class Room {
     }
 
     public void stopTimerBySessionId(String sessionId) {
-        User user = findSpeakingUser();
+        stopTimerOf(findSpeakingUser());
+    }
+
+    public void stopTimerByUserId(String userId) {
+        stopTimerOf(findSpeakingUser());
+    }
+
+    public void stopTimerOf(User user) {
         stop(user);
         startSpeakingNextUser(user);
     }
@@ -140,7 +160,14 @@ public class Room {
     }
 
     public void pauseTimerBySessionId(String sessionId) {
-        User user = getUserBySessionId(sessionId);
+        pauseTimerOf(getUserBySessionId(sessionId));
+    }
+
+    public void pauseTimerByUserId(String userId) {
+        pauseTimerOf(getUserById(userId));
+    }
+
+    public void pauseTimerOf(User user) {
         if (user.isSpeaking()) {
             stop(user);
         } else {

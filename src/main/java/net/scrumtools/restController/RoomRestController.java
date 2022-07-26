@@ -1,4 +1,4 @@
-package net.scrumtools.webservice;
+package net.scrumtools.restController;
 
 import net.scrumtools.dto.RoomDto;
 import net.scrumtools.entity.Room;
@@ -32,7 +32,7 @@ public class RoomRestController {
         return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
     }
 
-    @PostMapping("/room-state/{roomId}/poll")
+    /*@PostMapping("/room-state/{roomId}/poll")
     public ResponseEntity<Object> pollRoomState(@PathVariable("roomId") String roomId,
                                                 @RequestParam("lastUpdatedDate") long lastUpdatedDate) {
         Room room = service.getRoomById(roomId);
@@ -42,40 +42,40 @@ public class RoomRestController {
         else {
             return new ResponseEntity<>("{}", HttpStatus.OK);
         }
-    }
+    }*/
 
-    @PostMapping("/room/{roomId}/start-action")
+    /*@PostMapping("/room/{roomId}/start-action")
     public ResponseEntity<RoomDto> startAction(@PathVariable("roomId") String roomId) {
         Room room = service.getRoomById(roomId);
         room.startTimerBySessionId(session.getId());
         return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
-    }
+    }*/
 
-    @PostMapping("/room/{roomId}/stop-action")
+    /*@PostMapping("/room/{roomId}/stop-action")
     public ResponseEntity<RoomDto> stopAction(@PathVariable("roomId") String roomId) {
         Room room = service.getRoomById(roomId);
         room.stopTimerBySessionId(session.getId());
         return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
-    }
+    }*/
 
-    @PostMapping("/room/{roomId}/pause-action")
+    /*@PostMapping("/room/{roomId}/pause-action")
     public ResponseEntity<RoomDto> pauseAction(@PathVariable("roomId") String roomId) {
         Room room = service.getRoomById(roomId);
         room.pauseTimerBySessionId(session.getId());
         return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
-    }
+    }*/
 
-    @PostMapping("/room/{roomId}/{userId}/remove-action")
+    /*@PostMapping("/room/{roomId}/{userId}/remove-action")
     public ResponseEntity<RoomDto> removeAction(@PathVariable("roomId") String roomId, @PathVariable("userId") String userId) {
         Room room = service.getRoomById(roomId);
         room.removeUser(room.getUserById(userId));
         return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
-    }
+    }*/
 
-    @PostMapping("/room/{roomId}/name-changing")
+    /*@PostMapping("/room/{roomId}/name-changing")
     public ResponseEntity<RoomDto> changeUserName(@PathVariable("roomId") String roomId, @RequestParam(name = "userName") String userName) {
         Room room = service.getRoomById(roomId);
         room.changeUserName(session.getId(), userName);
         return new ResponseEntity<>(new RoomDto(room), HttpStatus.OK);
-    }
+    }*/
 }
