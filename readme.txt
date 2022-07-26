@@ -34,22 +34,26 @@ $ mvn clean
 ---------------------------------------------------------
 Deploy on Heroku
 
-1. Open cmd and go to this project folder. Or use IDE terminal.
+1. Run Maven clean.
 
-2. Login to Heroku.
+2. Run Maven package.
+
+3. Open cmd and go to this project folder. Or use IDE terminal.
+
+4. Login to Heroku (ask dev chat for password).
 $ heroku login
 <enter password>
-
-3. Deploy bookprototype (litfit) project.
-$ heroku war:deploy target\BookPrototype-1.0-SNAPSHOT.war --app bookprototype-test
-
-4. Go to URL in browser.
-https://bookprototype-test.herokuapp.com/
 
 5. Deploy scrum-tools project.
 $ heroku jar:deploy target\DailyTool-1.0-SNAPSHOT.jar --app scrum-tools-test
 
 6. Go to URL in browser.
 https://scrum-tools-test.herokuapp.com/
+
+7. Deploy bookprototype (litfit) project.
+$ heroku war:deploy target\BookPrototype-1.0-SNAPSHOT.war --app bookprototype-test
+
+8. Go to URL in browser.
+https://bookprototype-test.herokuapp.com/
 
 ---------------------------------------------------------
