@@ -10,7 +10,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public WebSocketConfig() {
-        System.out.println("WebSocketConfig created");
+        //System.out.println("WebSocketConfig created");
     }
 
     @Override

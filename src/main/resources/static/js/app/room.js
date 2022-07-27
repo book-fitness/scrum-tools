@@ -266,7 +266,7 @@ function initStompClient(endPoint, destination, responseHandler) {
     var socket = new SockJS(endPoint);
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function(frame) {
-        stompClient.subscribe("/topic/room/" + roomId, responseHandler);
+        stompClient.subscribe(destination, responseHandler);
     });
 }
 
