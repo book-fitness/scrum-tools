@@ -437,6 +437,11 @@ function initApp() {
                 if (this.getCurrentUser() == null) return false;
                 return this.getCurrentUser().active;
             },
+            timerIsRunning() {
+                if (this.getCurrentUser() == null) return false;
+                console.log("isRunning ", this.getCurrentUser().timer.running);
+                return this.getCurrentUser().timer.running;
+            },
             isUserDeleted() {
                 for (var i = 0; i < this.roomState.users.length; i++) {
                     if (this.roomState.users[i].userId == userId) {
@@ -553,8 +558,8 @@ function initApp() {
                 </div>
                 <div class="footer">
                     <div class="control-buttons">
-                        <input id="start-btn" type="button" value="Start" v-on:click="startAction" :disabled="!isActive()"/>
-                        <input id="pause-btn" type="button" value="Pause" v-on:click="pauseAction" :disabled="!isActive()"/>
+                        <input id="start-btn" type="button" value="Start" v-on:click="startAction" :disabled="!isActive() || timerIsRunning()"/>
+                        <input id="pause-btn" type="button" value="Pause" v-on:click="pauseAction" :disabled="!isActive() || !timerIsRunning()"/>
                         <input id="stop-btn" type="button" value="Stop" v-on:click="stopAction" :disabled="!isActive()"/>
                         <input id="copy-url-btn" type="button" value="Copy room link" v-on:click="copyLink"/>
                     </div>

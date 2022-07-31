@@ -17,6 +17,10 @@ public class User {
         userTime.setTimerLimit(timerLimit);
     }
 
+    public void pauseAction() {
+        this.pause = false;
+    }
+
     public String getSessionId() {
         return sessionId;
     }

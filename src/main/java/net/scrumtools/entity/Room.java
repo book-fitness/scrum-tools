@@ -115,6 +115,10 @@ public class Room {
         stopTimerOf(findSpeakingUser());
     }
 
+    public void pauseUserByUserId(String userId) {
+        pauseUser(findSpeakingUser());
+    }
+
     public void stopTimerByUserId(String userId) {
         stopTimerOf(findSpeakingUser());
     }
@@ -184,6 +188,12 @@ public class Room {
 
     private void stop(User user) {
         user.stopSpeaking();
+        totalTimer.stop();
+        updateDate();
+    }
+
+    public void pauseUser(User user) {
+        user.pauseAction();
         totalTimer.stop();
         updateDate();
     }
