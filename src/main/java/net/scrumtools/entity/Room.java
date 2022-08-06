@@ -115,12 +115,10 @@ public class Room {
         stopTimerOf(findSpeakingUser());
     }
 
-    public void pauseUserByUserId(String userId) {
-        pauseUser(findSpeakingUser());
-    }
-
     public void stopTimerByUserId(String userId) {
-        stopTimerOf(findSpeakingUser());
+        User user = getUserById(userId);
+        stopTimerOf(user);
+        //stopTimerOf(findSpeakingUser());
     }
 
     public void stopTimerOf(User user) {
@@ -181,6 +179,7 @@ public class Room {
     }
 
     private void start(User user) {
+        user.setActive(true);
         user.startSpeaking();
         totalTimer.start();
         updateDate();
@@ -249,5 +248,18 @@ public class Room {
 
     public boolean isEmpty() {
         return users.isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "roomId=" + roomId +
+                ", createdDate=" + createdDate +
+                ", lastUpdatedDate=" + lastUpdatedDate +
+                ", users=" + users +
+                ", totalTimer=" + totalTimer +
+                ", randomOrder=" + randomOrder +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

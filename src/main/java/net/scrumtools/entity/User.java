@@ -62,7 +62,14 @@ public class User {
     }
 
     public void stopSpeaking() {
+        this.active = false;
+        this.pause = false;
         userTime.stop();
+    }
+
+    public void stopAction() {
+        this.active = false;
+        this.pause = false;
     }
 
     public long getSpeakTime() {
@@ -99,5 +106,19 @@ public class User {
 
     public void setHost(boolean host) {
         isHost = host;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "sessionId='" + sessionId + '\'' +
+                ", userId=" + userId +
+                ", name='" + name + '\'' +
+                ", userTime=" + userTime +
+                ", anonymous=" + anonymous +
+                ", pause=" + pause +
+                ", active=" + active +
+                ", isHost=" + isHost +
+                '}';
     }
 }

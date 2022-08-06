@@ -59,7 +59,6 @@ public class UserActionWebSocket {
         //System.out.println("==== userActionChangeName(): " + userActionChangeNameDto);
         Room room = service.getRoomById(userActionChangeNameDto.getRoomId());
         room.changeUserNameById(userActionChangeNameDto.getUserId(), userActionChangeNameDto.getNewUserName());
-        room.pauseUserByUserId(userActionChangeNameDto.getUserId());
         sendResponseToRoomTopic(room);
     }
 
