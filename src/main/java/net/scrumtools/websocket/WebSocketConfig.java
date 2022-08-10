@@ -21,6 +21,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/scrum-tools-websocket").withSockJS();
+        registry.addEndpoint("/scrum-tools-websocket")
+                .addInterceptors(new HttpHandshakeInterceptor())
+                .withSockJS();
     }
 }

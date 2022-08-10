@@ -8,6 +8,7 @@ import net.scrumtools.entity.Room;
 import net.scrumtools.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
@@ -31,7 +32,7 @@ public class UserActionWebSocket {
     }
 
     @MessageMapping("/user-action/start")
-    public void userActionStart(UserActionDto userActionDto) {
+    public void userActionStart(SimpMessageHeaderAccessor headerAccessor, UserActionDto userActionDto) {
         //System.out.println("==== userActionStart(): " + userActionDto);
         Room room = service.getRoomById(userActionDto.getRoomId());
         room.startTimerByUserId(userActionDto.getUserId());
@@ -39,7 +40,7 @@ public class UserActionWebSocket {
     }
 
     @MessageMapping("/user-action/stop")
-    public void userActionStop(UserActionDto userActionDto) {
+    public void userActionStop(SimpMessageHeaderAccessor headerAccessor, UserActionDto userActionDto) {
         //System.out.println("==== userActionStop(): " + userActionDto);
         Room room = service.getRoomById(userActionDto.getRoomId());
         room.stopTimerByUserId(userActionDto.getUserId());
@@ -47,7 +48,7 @@ public class UserActionWebSocket {
     }
 
     @MessageMapping("/user-action/pause")
-    public void userActionPause(UserActionDto userActionDto) {
+    public void userActionPause(SimpMessageHeaderAccessor headerAccessor, UserActionDto userActionDto) {
         //System.out.println("==== userActionPause(): " + userActionDto);
         Room room = service.getRoomById(userActionDto.getRoomId());
         room.pauseTimerByUserId(userActionDto.getUserId());
@@ -55,7 +56,7 @@ public class UserActionWebSocket {
     }
 
     @MessageMapping("/user-action/change-name")
-    public void userActionChangeName(UserActionChangeNameDto userActionChangeNameDto) {
+    public void userActionChangeName(SimpMessageHeaderAccessor headerAccessor, UserActionChangeNameDto userActionChangeNameDto) {
         //System.out.println("==== userActionChangeName(): " + userActionChangeNameDto);
         Room room = service.getRoomById(userActionChangeNameDto.getRoomId());
         room.changeUserNameById(userActionChangeNameDto.getUserId(), userActionChangeNameDto.getNewUserName());
@@ -63,10 +64,14 @@ public class UserActionWebSocket {
     }
 
     @MessageMapping("/user-action/remove")
-    public void userActionRemove(UserActionRemoveDto userActionRemoveDto) {
+    public void userActionRemove(SimpMessageHeaderAccessor headerAccessor, UserActionRemoveDto userActionRemoveDto) {
         //System.out.println("==== userActionRemove(): " + userActionRemoveDto);
         Room room = service.getRoomById(userActionRemoveDto.getRoomId());
         room.removeUser(room.getUserById(userActionRemoveDto.getRemovingUserId()));
         sendResponseToRoomTopic(room);
+    }
+
+    private static String getHttpSessionId(SimpMessageHeaderAccessor headerAccessor) {
+        return headerAccessor.getSessionAttributes().get("sessionId").toString();
     }
 }
