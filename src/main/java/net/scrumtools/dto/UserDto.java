@@ -9,6 +9,7 @@ public class UserDto {
     private boolean anonymous;
     private boolean pause;
     private boolean active;
+    private boolean running;
     private boolean isHost;
 
     public UserDto(User user) {
@@ -18,6 +19,7 @@ public class UserDto {
         this.anonymous = user.isAnonymous();
         this.pause = user.isPause();
         this.active = user.isActive();
+        this.running = user.isRunning();
         this.isHost = user.isHost();
     }
 
@@ -67,6 +69,14 @@ public class UserDto {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
     }
 
     public boolean isHost() {

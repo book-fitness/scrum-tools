@@ -1,6 +1,7 @@
 package net.scrumtools.entity;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Room {
     private RoomId roomId;
@@ -45,6 +46,9 @@ public class Room {
     }
 
     public void addUser(User user) {
+        if (!users.stream().anyMatch(User::isActive)) {
+            user.setActive(true);
+        }
         users.add(user);
         updateDate();
     }
@@ -123,7 +127,8 @@ public class Room {
 
     public void stopTimerOf(User user) {
         stop(user);
-        startSpeakingNextUser(user);
+        User nextUser = findNextUser(user);
+        if (nextUser != null) nextUser.setActive(true);
     }
 
     private User findSpeakingUser() {
@@ -134,52 +139,40 @@ public class Room {
         return null;
     }
 
-    private void startSpeakingNextUser(User user) {
+    private User findNextUser(User user) {
         if (randomOrder) {
-            startSpeakingOfRandomUser();
-        } else if (isNotSpeakingUserExist()) {
+            return findRandomUser();
+        } else {
             int indexOfNextUser = users.indexOf(user) + 1;
-            if (indexOfNextUser <= users.size() - 1) startTimerBySessionId(users.get(indexOfNextUser).getSessionId());
+            return indexOfNextUser <= users.size() - 1
+                 ? users.get(indexOfNextUser)
+                 : null;
         }
     }
 
-    private void startSpeakingOfRandomUser() {
+    private User findRandomUser() {
         Random random = new Random();
+        List<User> users = getNotSpeakingUsers();
+        if (users.isEmpty()) return null;
         int randomIndex = random.nextInt(users.size());
-        if (isNotSpeakingUserExist()) {
-            while(true) {
-                User user = users.get(randomIndex);
-                if (user.getUserTime().getTotalTime() == 0) {
-                    startTimerBySessionId(user.getSessionId());
-                    break;
-                }
-            }
-        }
+        return users.get(randomIndex);
     }
 
-    private boolean isNotSpeakingUserExist() {
-        return users.stream().anyMatch(u -> u.getUserTime().getTotalTime() == 0);
+    private List<User> getNotSpeakingUsers() {
+        return users.stream()
+                .filter(u -> u.getUserTime().getTotalTime() == 0)
+                .collect(Collectors.toList());
     }
 
     public void pauseTimerBySessionId(String sessionId) {
-        pauseTimerOf(getUserBySessionId(sessionId));
+        pause(getUserBySessionId(sessionId));
     }
 
     public void pauseTimerByUserId(String userId) {
-        pauseTimerOf(getUserById(userId));
-    }
-
-    public void pauseTimerOf(User user) {
-        if (user.isSpeaking()) {
-            stop(user);
-        } else {
-            stopAll();
-            start(user);
-        }
+        pause(getUserById(userId));
     }
 
     private void start(User user) {
-        user.setActive(true);
         user.startSpeaking();
         totalTimer.start();
         updateDate();
@@ -191,9 +184,13 @@ public class Room {
         updateDate();
     }
 
-    public void pauseUser(User user) {
-        user.pauseAction();
-        totalTimer.stop();
+    private void pause(User user) {
+        if (user.isPause()) {
+            totalTimer.start();
+        } else {
+            totalTimer.stop();
+        }
+        user.pauseSpeaking();
         updateDate();
     }
 

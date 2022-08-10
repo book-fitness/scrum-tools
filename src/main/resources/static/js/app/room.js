@@ -433,15 +433,6 @@ function initApp() {
                                removingUserId: userId,};
                 stompClient.send("/app/user-action/remove", {}, JSON.stringify(message));
             },
-            isActive() {
-                if (this.getCurrentUser() == null) return false;
-                return this.getCurrentUser().active;
-            },
-            timerIsRunning() {
-                if (this.getCurrentUser() == null) return false;
-                console.log("isRunning ", this.getCurrentUser().timer.running);
-                return this.getCurrentUser().timer.running;
-            },
             isUserDeleted() {
                 for (var i = 0; i < this.roomState.users.length; i++) {
                     if (this.roomState.users[i].userId == userId) {
@@ -483,6 +474,30 @@ function initApp() {
                         }
                     }
                 }
+            },
+            isActive() {
+                var currentUser = this.getCurrentUser();
+                if (currentUser == null) return false;
+                return this.getCurrentUser().active;
+            },
+            isPaused() {
+                var currentUser = this.getCurrentUser();
+                if (currentUser == null) return false;
+                return currentUser.pause;
+            },
+            isRunning() {
+                var currentUser = this.getCurrentUser();
+                if (currentUser == null) return false;
+                return currentUser.running;
+            },
+            isDisabledStartButton() {
+                return !(this.isActive() && !this.isRunning());
+            },
+            isDisabledPauseButton() {
+                return !(this.isActive() && this.isRunning());
+            },
+            isDisabledStopButton() {
+                return !(this.isActive());
             },
             /*startRoomStateServerPolling() {
                 var _this = this;
@@ -539,6 +554,7 @@ function initApp() {
                                 <!--Running: {{user.timer.running}}</br>-->
                                 <!--Start time: {{milliToStr(user.timer.startTime)}}</br>-->
                                 Total time: <label v-bind:class="{ 'overtime': isOvertime(user.timer) }">{{milliToStr(user.timer.totalTime)}}</label>
+                                <span v-if="user.active && user.pause"> [on pause]</span>
                                 <input type="button" value="Remove" v-show="canShowRemoveButton(user)" v-on:click="removeAction(user.userId)"/>
                             </li>
                         </ul>
@@ -558,9 +574,9 @@ function initApp() {
                 </div>
                 <div class="footer">
                     <div class="control-buttons">
-                        <input id="start-btn" type="button" value="Start" v-on:click="startAction" :disabled="!isActive() || timerIsRunning()"/>
-                        <input id="pause-btn" type="button" value="Pause" v-on:click="pauseAction" :disabled="!isActive() || !timerIsRunning()"/>
-                        <input id="stop-btn" type="button" value="Stop" v-on:click="stopAction" :disabled="!isActive()"/>
+                        <input id="start-btn" type="button" value="Start" v-on:click="startAction" :disabled="isDisabledStartButton()"/>
+                        <input id="pause-btn" type="button" value="Pause" v-on:click="pauseAction" :disabled="isDisabledPauseButton()"/>
+                        <input id="stop-btn" type="button" value="Stop" v-on:click="stopAction" :disabled="isDisabledStopButton()"/>
                         <input id="copy-url-btn" type="button" value="Copy room link" v-on:click="copyLink"/>
                     </div>
                 </div>

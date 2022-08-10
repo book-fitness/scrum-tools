@@ -6,6 +6,7 @@ public class User {
     private String name;
     private RoomTimer userTime = new RoomTimer();
     private boolean anonymous = true;
+    private boolean running = false;
     private boolean pause = false;
     private boolean active = false;
     private boolean isHost = false;
@@ -15,10 +16,6 @@ public class User {
         this.userId = userId;
         this.name = name;
         userTime.setTimerLimit(timerLimit);
-    }
-
-    public void pauseAction() {
-        this.pause = false;
     }
 
     public String getSessionId() {
@@ -58,18 +55,24 @@ public class User {
     }
 
     public void startSpeaking() {
+        running = true;
         userTime.start();
     }
 
-    public void stopSpeaking() {
-        this.active = false;
-        this.pause = false;
-        userTime.stop();
+    public void pauseSpeaking() {
+        if (pause) {
+            userTime.start();
+        } else {
+            userTime.stop();
+        }
+        pause = !pause;
     }
 
-    public void stopAction() {
-        this.active = false;
-        this.pause = false;
+    public void stopSpeaking() {
+        active = false;
+        running = false;
+        pause = false;
+        userTime.stop();
     }
 
     public long getSpeakTime() {
@@ -82,6 +85,14 @@ public class User {
 
     public void setAnonymous(boolean anonymous) {
         this.anonymous = anonymous;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
     }
 
     public boolean isPause() {

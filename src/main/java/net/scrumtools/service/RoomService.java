@@ -49,18 +49,6 @@ public class RoomService {
         return room;
     }
 
-    public Room startUserTimer(String roomId, String sessionId) {
-        Room room = roomManager.getRoomById(roomId);
-        room.startTimerBySessionId(sessionId);
-        return room;
-    }
-
-    public Room stopUserTimer(String roomId, String sessionId) {
-        Room room = roomManager.getRoomById(roomId);
-        room.stopTimerBySessionId(sessionId);
-        return room;
-    }
-
     public void userSessionExpired(String sessionId) {
         List<Room> rooms = roomManager.findRoomsBySessionId(sessionId);
         for (Room room : rooms) {
